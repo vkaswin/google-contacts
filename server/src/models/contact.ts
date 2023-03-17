@@ -53,6 +53,10 @@ export const ContactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      index: true,
+    },
   },
   { timestamps: true }
 );
