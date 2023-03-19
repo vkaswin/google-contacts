@@ -13,14 +13,14 @@ export const AuthRoutes: Routes = [
       {
         path: "sign-in",
         loadComponent: async () => {
-          let { SignInComponent } = await import("./signin/signin.component");
+          let { SignInComponent } = await import("./sign-in/sign-in.component");
           return SignInComponent;
         },
       },
       {
         path: "sign-up",
         loadComponent: async () => {
-          let { SignUpComponent } = await import("./signup/signup.component");
+          let { SignUpComponent } = await import("./sign-up/sign-up.component");
           return SignUpComponent;
         },
       },
