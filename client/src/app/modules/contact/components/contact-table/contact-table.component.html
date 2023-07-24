@@ -1,0 +1,65 @@
+<ng-container *ngFor="let list of contactsList">
+  <ng-container *ngIf="list.contacts">
+    <div class="p-3">
+      <span class="text-gray font-medium text-xs capitalize"
+        >{{ list.title }} ({{ list.contacts.length }})</span
+      >
+    </div>
+    <div class="flex flex-col">
+      <div
+        class="group grid grid-cols-contact items-center rounded-md text-sm py-2 hover:bg-dark-silver transition-colors duration-200 cursor-pointer"
+        *ngFor="let contact of list.contacts; trackBy: handleTrackContact"
+        [routerLink]="['/contact', contact.contactId, 'view']"
+      >
+        <div class="flex items-center gap-5 px-3">
+          <div
+            class="flex items-center justify-center text-xl text-white font-medium w-[40px] h-[40px] rounded-full"
+            [style]="{ backgroundColor: contact.colorCode }"
+          >
+            <span>{{ contact.name.charAt(0) | uppercase }}</span>
+          </div>
+          <span class="first-letter:capitalize">{{ contact.name }}</span>
+        </div>
+        <div class="px-3 py-2">
+          <span>{{ contact.email }}</span>
+        </div>
+        <div class="px-3 py-2">
+          <span>+91 {{ contact.phone }}</span>
+        </div>
+        <div class="px-3 py-2">
+          <span
+            >{{ contact.company }}
+            <ng-container *ngIf="contact.jobTitle">
+              , {{ contact.jobTitle }}
+            </ng-container>
+          </span>
+        </div>
+        <div>
+          <div
+            class="hidden group-hover:flex items-center justify-end gap-2 text-xl text-gray"
+          >
+            <i
+              [class]="{
+                'icon-star': list.isFavourite,
+                'text-light-blue': list.isFavourite,
+                'icon-star-outline': !list.isFavourite
+              }"
+              (click)="
+                onFavourite($event, contact.contactId, !list.isFavourite)
+              "
+            ></i>
+            <i
+              class="icon-pencil-outline"
+              (click)="$event.stopPropagation()"
+              [routerLink]="['/contact', contact.contactId, 'edit']"
+            ></i>
+            <i
+              class="icon-trash-can-outline"
+              (click)="onDelete($event, contact.contactId)"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

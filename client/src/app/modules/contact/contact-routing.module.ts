@@ -16,12 +16,24 @@ export const ContactRoutes: Routes = [
         },
       },
       {
-        path: "detail/:contactId",
+        path: "add",
         loadComponent: async () => {
-          let c = await import(
-            "./pages/contact-detail/contact-detail.component"
-          );
-          return c.ContactDetailComponent;
+          let c = await import("./pages/add-contact/add-contact.component");
+          return c.AddContactComponent;
+        },
+      },
+      {
+        path: ":contactId/edit",
+        loadComponent: async () => {
+          let c = await import("./pages/edit-contact/edit-contact.component");
+          return c.EditContactComponent;
+        },
+      },
+      {
+        path: ":contactId/view",
+        loadComponent: async () => {
+          let c = await import("./pages/view-contact/view-contact.component");
+          return c.ViewContactComponent;
         },
       },
       {

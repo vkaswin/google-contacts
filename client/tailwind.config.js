@@ -7,10 +7,12 @@ module.exports = {
         "light-silver": "#F1F3F4",
         "dark-white": "rgba(255,255,255,1)",
         "sky-blue": "#E8F0FE",
+        "dark-silver": "#F5F5F5",
       },
       textColor: {
         gray: "#5f6368",
         blue: "#174ea6",
+        "light-blue": "#508EEB",
         "dark-gray": "#3c4043",
       },
       fontFamily: {
@@ -20,6 +22,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         header: "280px 1fr 0.3fr",
+        contact: "0.25fr 0.25fr 0.2fr 0.2fr 0.1fr",
       },
       height: {
         header: "64px",

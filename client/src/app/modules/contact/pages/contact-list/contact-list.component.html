@@ -1,1 +1,5 @@
-<p>contact-list works!</p>
+<app-contact-table
+  [contactsList]="constactsList"
+  (onDeleteContact)="handleDeleteContact($event)"
+  (onFavouriteContact)="handleFavouriteContact($event)"
+/>

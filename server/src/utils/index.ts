@@ -1,12 +1,30 @@
 import { sign } from "jsonwebtoken";
 
-let generateJwtToken = (payload: string | object | Buffer) => {
+const colors = [
+  "#EF4770",
+  "#6F6F6F",
+  "#DCB604",
+  "#199393",
+  "#029ACD",
+  "#11C1DA",
+  "#3B8FFC",
+  "#18C6A0",
+  "#B387FF",
+  "#F75334",
+];
+
+export const generateJwtToken = (payload: string | object | Buffer) => {
   return sign(payload, process.env.JWT_SECRET as string, {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
-const getPagination = <T>({
+export const getRandomColorCode = () => {
+  let index = Math.floor(Math.random() * colors.length);
+  return colors[index];
+};
+
+export const getPagination = <T>({
   list,
   limit,
   page,
@@ -27,5 +45,3 @@ const getPagination = <T>({
     list,
   };
 };
-
-export { generateJwtToken, getPagination };

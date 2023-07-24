@@ -1,5 +1,6 @@
 <button
   class="group flex items-center gap-2 shadow-create rounded-full px-5 mb-5 ml-3 h-create hover:shadow-create-hover transition-[box-shadow] duration-200"
+  [routerLink]="'add'"
 >
   <svg width="36" height="36" viewBox="0 0 36 36">
     <path fill="#34A853" d="M16 16v14h4V20z"></path>
@@ -60,7 +61,7 @@
   <button
     class="group flex items-center justify-between font-medium py-2 px-5 rounded-r-full [&:not(.active)]:text-dark-gray [&:not(.active)]:hover:bg-light-silver [&:is(.active)]:bg-sky-blue [&:is(.active)]:text-blue transition-colors duration-200"
     [routerLinkActive]="'active'"
-    *ngFor="let label of labels; trackBy: trackLabel"
+    *ngFor="let label of labels; trackBy: handleTrackLabel"
     [routerLink]="['label', label.id]"
   >
     <div class="flex items-center gap-4">
