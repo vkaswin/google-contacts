@@ -6,6 +6,5 @@ import { Component } from "@angular/core";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./detail.component.html",
-  styleUrls: ["./detail.component.scss"],
 })
 export class DetailComponent {}

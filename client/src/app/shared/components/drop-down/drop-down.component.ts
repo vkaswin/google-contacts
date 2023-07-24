@@ -6,6 +6,5 @@ import { Component } from "@angular/core";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./drop-down.component.html",
-  styleUrls: ["./drop-down.component.scss"],
 })
 export class DropDownComponent {}

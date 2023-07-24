@@ -6,26 +6,24 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: async () => {
-      let { AuthRoutes } = await import("./modules/auth/auth-routing.module");
-      return AuthRoutes;
+      let m = await import("./modules/auth/auth-routing.module");
+      return m.AuthRoutes;
     },
   },
   {
     path: "contact",
     loadChildren: async () => {
-      let { ContactRoutes } = await import(
-        "./modules/contact/contact-routing.module"
-      );
-      return ContactRoutes;
+      let m = await import("./modules/contact/contact-routing.module");
+      return m.ContactRoutes;
     },
   },
   {
     path: "**",
     loadComponent: async () => {
-      let { PageNotFoundComponent } = await import(
+      let c = await import(
         "./core/components/page-not-found/page-not-found.component"
       );
-      return PageNotFoundComponent;
+      return c.PageNotFoundComponent;
     },
   },
 ];

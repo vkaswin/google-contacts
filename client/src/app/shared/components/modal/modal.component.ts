@@ -6,6 +6,5 @@ import { Component } from "@angular/core";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./modal.component.html",
-  styleUrls: ["./modal.component.scss"],
 })
 export class ModalComponent {}

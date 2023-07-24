@@ -6,6 +6,5 @@ import { Component } from "@angular/core";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./chec-box.component.html",
-  styleUrls: ["./chec-box.component.scss"],
 })
 export class ChecBoxComponent {}
