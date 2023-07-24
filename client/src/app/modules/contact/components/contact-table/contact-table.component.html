@@ -1,3 +1,27 @@
+<div
+  class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] py-4 px-3"
+>
+  <div class="text-dark-gray font-medium text-sm">
+    <span>Name</span>
+  </div>
+  <div class="text-dark-gray font-medium text-sm">
+    <span>Email</span>
+  </div>
+  <div class="text-dark-gray font-medium text-sm">
+    <span>Phone Number</span>
+  </div>
+  <div class="text-dark-gray font-medium text-sm">
+    <span>Job Title & Company</span>
+  </div>
+  <div
+    class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
+  >
+    <i class="icon-printer-outline cursor-pointer"></i>
+    <i class="icon-export-variant cursor-pointer"></i>
+    <i class="icon-dots-vertical cursor-pointer"></i>
+  </div>
+</div>
+
 <ng-container *ngFor="let list of contactsList">
   <ng-container *ngIf="list.contacts">
     <div class="p-3">
@@ -36,7 +60,7 @@
         </div>
         <div>
           <div
-            class="hidden group-hover:flex items-center justify-end gap-2 text-xl text-gray"
+            class="hidden group-hover:flex items-center justify-end gap-3 text-xl text-gray"
           >
             <i
               [class]="{

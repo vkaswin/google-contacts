@@ -45,6 +45,9 @@ module.exports = {
       translate: {
         sidebar: "280px",
       },
+      borderWidth: {
+        1: "1px",
+      },
     },
   },
   plugins: [],
