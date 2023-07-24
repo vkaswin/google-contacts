@@ -1,0 +1,78 @@
+<button
+  class="group flex items-center gap-2 shadow-create rounded-full px-5 mb-5 ml-3 h-create hover:shadow-create-hover transition-[box-shadow] duration-200"
+>
+  <svg width="36" height="36" viewBox="0 0 36 36">
+    <path fill="#34A853" d="M16 16v14h4V20z"></path>
+    <path fill="#4285F4" d="M30 16H20l-4 4h14z"></path>
+    <path fill="#FBBC05" d="M6 16v4h10l4-4z"></path>
+    <path fill="#EA4335" d="M20 16V6h-4v14z"></path>
+    <path fill="none" d="M0 0h36v36H0z"></path>
+  </svg>
+  <span
+    class="text-dark-gray group-hover:text-blue font-medium text-sm transition-colors duration-200"
+    >Create Contact</span
+  >
+</button>
+
+<div class="flex flex-col mb-6">
+  <button
+    class="flex items-center justify-between font-medium py-2 px-5 rounded-r-full [&:not(.active)]:text-dark-gray [&:not(.active)]:hover:bg-light-silver [&:is(.active)]:bg-sky-blue [&:is(.active)]:text-blue transition-colors duration-200"
+    [routerLink]="'list'"
+    [routerLinkActive]="'active'"
+  >
+    <div class="flex items-center gap-4">
+      <i class="icon-account-outline text-2xl"></i>
+      <span class="text-sm">Contacts</span>
+    </div>
+    <div>
+      <span class="text-sm">70</span>
+    </div>
+  </button>
+  <button
+    class="flex items-center justify-between text-dark-gray font-medium py-2 px-5 rounded-r-full hover:bg-light-silver transition-colors duration-200"
+  >
+    <div class="flex items-center gap-4">
+      <i class="icon-download-outline text-2xl"></i>
+      <span class="text-sm">Import</span>
+    </div>
+  </button>
+  <button
+    class="flex items-center justify-between font-medium py-2 px-5 rounded-r-full [&:not(.active)]:text-dark-gray [&:not(.active)]:hover:bg-light-silver [&:is(.active)]:bg-sky-blue [&:is(.active)]:text-blue transition-colors duration-200"
+    [routerLink]="'trash'"
+    [routerLinkActive]="'active'"
+  >
+    <div class="flex items-center gap-4">
+      <i class="icon-trash-can-outline text-2xl"></i>
+      <span class="text-sm">Trash</span>
+    </div>
+  </button>
+</div>
+<div class="flex flex-col">
+  <div class="flex items-center justify-between text-dark-gray pl-5 pr-3 mb-4">
+    <span class="text-lg font-medium cursor-default" class="text-sm"
+      >Labels</span
+    >
+    <i
+      class="icon-plus w-6 h-6 flex items-center justify-center text-xl cursor-pointer hover:bg-light-silver rounded-full"
+    ></i>
+  </div>
+
+  <button
+    class="group flex items-center justify-between font-medium py-2 px-5 rounded-r-full [&:not(.active)]:text-dark-gray [&:not(.active)]:hover:bg-light-silver [&:is(.active)]:bg-sky-blue [&:is(.active)]:text-blue transition-colors duration-200"
+    [routerLinkActive]="'active'"
+    *ngFor="let label of labels; trackBy: trackLabel"
+    [routerLink]="['label', label.id]"
+  >
+    <div class="flex items-center gap-4">
+      <i class="icon-label text-2xl"></i>
+      <span class="text-sm">{{ label.title }}</span>
+    </div>
+    <div class="group-hover:hidden">
+      <span class="text-sm">1</span>
+    </div>
+    <div class="hidden items-center gap-3 group-hover:flex">
+      <i class="icon-trash-can-outline text-xl"></i>
+      <i class="icon-pencil-outline text-xl"></i>
+    </div>
+  </button>
+</div>

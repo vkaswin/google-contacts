@@ -1,2 +1,15 @@
-<p>contact layout works!</p>
-<router-outlet></router-outlet>
+<app-header (onToggleMenu)="handleToggleMenu()" />
+
+<div class="relative h-contact overflow-x-hidden">
+  <app-sidebar
+    class="fixed h-contact bottom-0 left-0 overflow-auto w-sidebar bg-white py-5 aria-[expanded=true]:translate-x-0 aria-[expanded=false]:-translate-x-sidebar transition-transform duration-200"
+    [attr.aria-expanded]="this.isExpanded"
+    [labels]="this.labels"
+  />
+  <div
+    class="aria-[expanded=true]:translate-x-sidebar aria-[expanded=true]:w-contact transition-transform duration-200 px-5 pt-5"
+    [attr.aria-expanded]="this.isExpanded"
+  >
+    <router-outlet />
+  </div>
+</div>

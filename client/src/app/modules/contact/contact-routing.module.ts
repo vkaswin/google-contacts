@@ -11,17 +11,33 @@ export const ContactRoutes: Routes = [
       {
         path: "list",
         loadComponent: async () => {
-          let { ListComponent } = await import("./pages/list/list.component");
-          return ListComponent;
+          let c = await import("./pages/contact-list/contact-list.component");
+          return c.ContactListComponent;
         },
       },
       {
-        path: ":id/detail",
+        path: "detail/:contactId",
         loadComponent: async () => {
-          let { DetailComponent } = await import(
-            "./pages/detail/detail.component"
+          let c = await import(
+            "./pages/contact-detail/contact-detail.component"
           );
-          return DetailComponent;
+          return c.ContactDetailComponent;
+        },
+      },
+      {
+        path: "trash",
+        loadComponent: async () => {
+          let c = await import("./pages/trash/trash.component");
+          return c.TrashComponent;
+        },
+      },
+      {
+        path: "label/:labelId",
+        loadComponent: async () => {
+          let c = await import(
+            "./pages/contact-by-label/contact-by-label.component"
+          );
+          return c.ContactByLabelComponent;
         },
       },
     ],
