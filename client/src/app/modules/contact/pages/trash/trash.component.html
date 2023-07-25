@@ -1,1 +1,19 @@
-<p>trash works!</p>
+<div
+  class="flex items-center justify-center gap-4 bg-light-silver py-3 rounded-md text-sm font-medium"
+>
+  <span class="text-gray">
+    Contacts that have been in Trash more than 30 days will be deleted forever
+  </span>
+  <button
+    class="text-light-blue bg-sky-blue px-2 py-1 rounded-sm"
+    (click)="handleEmptyTrash()"
+  >
+    Empty Trash now
+  </button>
+</div>
+
+<app-contact-table
+  [contactsList]="contactsList"
+  (onRecover)="handleRecover($event)"
+  [isTrash]="true"
+/>

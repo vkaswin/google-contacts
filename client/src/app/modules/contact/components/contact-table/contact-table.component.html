@@ -1,23 +1,26 @@
 <div
   class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] py-4 px-3"
 >
-  <div class="text-dark-gray font-medium text-sm">
+  <div class="text-dark-gray font-medium text-sm px-3">
     <span>Name</span>
   </div>
-  <div class="text-dark-gray font-medium text-sm">
+  <div class="text-dark-gray font-medium text-sm px-3">
     <span>Email</span>
   </div>
-  <div class="text-dark-gray font-medium text-sm">
+  <div class="text-dark-gray font-medium text-sm px-3">
     <span>Phone Number</span>
   </div>
-  <div class="text-dark-gray font-medium text-sm">
-    <span>Job Title & Company</span>
+  <div class="text-dark-gray font-medium text-sm px-3">
+    <span *ngIf="!isTrash">Job Title & Company</span>
+    <span *ngIf="isTrash">Date deleted</span>
   </div>
   <div
     class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
   >
-    <i class="icon-printer-outline cursor-pointer"></i>
-    <i class="icon-export-variant cursor-pointer"></i>
+    <ng-container *ngIf="!isTrash">
+      <i class="icon-printer-outline cursor-pointer"></i>
+      <i class="icon-export-variant cursor-pointer"></i>
+    </ng-container>
     <i class="icon-dots-vertical cursor-pointer"></i>
   </div>
 </div>
@@ -51,36 +54,49 @@
           <span>+91 {{ contact.phone }}</span>
         </div>
         <div class="px-3 py-2">
-          <span
+          <span *ngIf="!isTrash"
             >{{ contact.company }}
             <ng-container *ngIf="contact.jobTitle">
               , {{ contact.jobTitle }}
             </ng-container>
           </span>
+          <span *ngIf="isTrash">
+            {{ contact.createdAt }}
+          </span>
         </div>
-        <div>
+        <div class="px-3">
           <div
             class="hidden group-hover:flex items-center justify-end gap-3 text-xl text-gray"
           >
-            <i
-              [class]="{
-                'icon-star': list.isFavourite,
-                'text-light-blue': list.isFavourite,
-                'icon-star-outline': !list.isFavourite
-              }"
-              (click)="
-                onFavourite($event, contact.contactId, !list.isFavourite)
-              "
-            ></i>
-            <i
-              class="icon-pencil-outline"
-              (click)="$event.stopPropagation()"
-              [routerLink]="['/contact', contact.contactId, 'edit']"
-            ></i>
-            <i
-              class="icon-trash-can-outline"
-              (click)="onDelete($event, contact.contactId)"
-            ></i>
+            <ng-container *ngIf="list.isFavourite">
+              <i
+                [class]="{
+                  'icon-star': list.isFavourite,
+                  'text-light-blue': list.isFavourite,
+                  'icon-star-outline': !list.isFavourite
+                }"
+                (click)="
+                  handleFavourite($event, contact.contactId, !list.isFavourite)
+                "
+              ></i>
+              <i
+                class="icon-pencil-outline"
+                (click)="$event.stopPropagation()"
+                [routerLink]="['/contact', contact.contactId, 'edit']"
+              ></i>
+              <i
+                class="icon-trash-can-outline"
+                (click)="handleDelete($event, contact.contactId)"
+              ></i>
+            </ng-container>
+            <ng-container *ngIf="isTrash">
+              <button
+                (click)="handleRecover($event, contact.contactId)"
+                class="text-light-blue text-sm font-medium bg-sky-blue px-2 py-1 rounded-sm"
+              >
+                Recover
+              </button>
+            </ng-container>
           </div>
         </div>
       </div>

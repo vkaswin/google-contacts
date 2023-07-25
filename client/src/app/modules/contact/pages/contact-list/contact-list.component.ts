@@ -24,6 +24,8 @@ export class ContactListComponent {
           company: "Zoho",
           email: "john@gmail.com",
           colorCode: "#EF4770",
+          createdAt: "Yesterday, 5:11 PM",
+          updatedAt: "Yesterday, 5:11 PM",
         },
         {
           contactId: 2,
@@ -33,6 +35,8 @@ export class ContactListComponent {
           company: "",
           email: "michel@gmail.com",
           colorCode: "#6F6F6F",
+          createdAt: "Yesterday, 5:11 PM",
+          updatedAt: "Yesterday, 5:11 PM",
         },
       ],
     },
@@ -48,6 +52,8 @@ export class ContactListComponent {
           company: "Zoho",
           email: "john@gmail.com",
           colorCode: "#DCB604",
+          createdAt: "Yesterday, 5:11 PM",
+          updatedAt: "Yesterday, 5:11 PM",
         },
         {
           contactId: 4,
@@ -57,6 +63,8 @@ export class ContactListComponent {
           company: "",
           email: "karthick@gmail.com",
           colorCode: "#199393",
+          createdAt: "Yesterday, 5:11 PM",
+          updatedAt: "Yesterday, 5:11 PM",
         },
         {
           contactId: 5,
@@ -66,16 +74,18 @@ export class ContactListComponent {
           company: "",
           email: "",
           colorCode: "#029ACD",
+          createdAt: "Yesterday, 5:11 PM",
+          updatedAt: "Yesterday, 5:11 PM",
         },
       ],
     },
   ];
 
-  handleDeleteContact(contactId: number) {
+  handleDelete(contactId: number) {
     console.log(contactId, "delete");
   }
 
-  handleFavouriteContact({
+  handleFavourite({
     contactId,
     isFavourite,
   }: {

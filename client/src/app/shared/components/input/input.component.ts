@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 @Component({
   selector: "app-input",
@@ -7,4 +7,8 @@ import { Component } from "@angular/core";
   imports: [CommonModule],
   templateUrl: "./input.component.html",
 })
-export class InputComponent {}
+export class InputComponent {
+  @Input() hasError = true;
+  @Input() name = "";
+  @Input() label = "";
+}

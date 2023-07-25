@@ -13,21 +13,30 @@ import { IContact, IContactList } from "../../types/contact";
 export class ContactTableComponent {
   @Input() contactsList: IContactList = [];
 
-  @Output() onDeleteContact = new EventEmitter<number>();
+  @Input() isTrash = false;
 
-  @Output() onFavouriteContact = new EventEmitter<{
+  @Output() onDelete = new EventEmitter<number>();
+
+  @Output() onRecover = new EventEmitter<number>();
+
+  @Output() onFavourite = new EventEmitter<{
     contactId: number;
     isFavourite: boolean;
   }>();
 
-  onDelete(event: MouseEvent, contactId: number) {
+  handleDelete(event: MouseEvent, contactId: number) {
     event.stopPropagation();
-    this.onDeleteContact.emit(contactId);
+    this.onDelete.emit(contactId);
   }
 
-  onFavourite(event: MouseEvent, contactId: number, isFavourite: boolean) {
+  handleFavourite(event: MouseEvent, contactId: number, isFavourite: boolean) {
     event.stopPropagation();
-    this.onFavouriteContact.emit({ contactId, isFavourite });
+    this.onFavourite.emit({ contactId, isFavourite });
+  }
+
+  handleRecover(event: MouseEvent, contactId: number) {
+    event.stopPropagation();
+    this.onRecover.emit(contactId);
   }
 
   handleTrackContact(index: number, contact: IContact) {

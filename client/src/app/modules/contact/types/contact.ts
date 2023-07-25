@@ -11,10 +11,12 @@ export type IContact = {
   jobTitle: string;
   company: string;
   colorCode: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type IContactList = {
   title: string;
   contacts: IContact[];
-  isFavourite: boolean;
+  isFavourite?: boolean;
 }[];
