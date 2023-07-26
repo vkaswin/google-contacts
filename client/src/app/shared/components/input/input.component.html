@@ -1,6 +1,7 @@
 <div class="group relative">
   <label
-    class="absolute left-4 top-1/2 -translate-y-1/2 px-1 text-gray group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:bg-white group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:top-0 group-[&:has(input:focus,input:not(:placeholder-shown))]:text-blue group-[&:has(input[aria-invalid='true'])]:text-red-600 group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:text-sm transition-all duration-200"
+    [htmlFor]="name"
+    class="absolute left-4 top-1/2 -translate-y-1/2 px-1 text-gray group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:bg-white group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:top-0 group-[&:has(input:focus,input:not(:placeholder-shown))]:text-blue group-[&:has(input[aria-invalid='true'])]:text-red-600 group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:text-sm transition-all duration-200 cursor-text"
   >
     {{ label }}
   </label>
@@ -9,6 +10,8 @@
       type="text"
       placeholder="placeholder"
       class="border border-gray-500 rounded-[4px] h-[40px] px-4 outline-none [&:not(:placeholder-shown)]:border-2 [&:not(:placeholder-shown)]:border-[#1a73e8] focus:border-[#1a73e8] focus:border-2 aria-[invalid=true]:border-[#d50000] aria-[invalid=true]:border-2 placeholder:text-transparent"
+      [id]="name"
+      [name]="name"
       [attr.aria-invalid]="hasError"
     />
     <span *ngIf="hasError" class="text-sm text-red-600">Please enter name</span>

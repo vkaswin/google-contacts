@@ -1,16 +1,23 @@
 <div
-  *ngIf="selectedContactIds.size !== 0; else tableHeader"
-  class="flex items-center border-b-1 borer-b-[rgba(0,0,0,.12)] gap-3 py-4 px-3"
+  *ngIf="selectedContactIds.size !== 0"
+  class="flex items-center border-b-1 borer-b-[rgba(0,0,0,.12)] gap-3 h-[50px] px-3"
 >
-  <i class="icon-minus-box text-blue text-2xl cursor-pointer"></i>
+  <i
+    class="icon-minus-box text-blue text-2xl cursor-pointer"
+    (click)="handleClearAllSelectedContacts()"
+  ></i>
   <span class="text-sm text-blue font-medium"
     >{{ selectedContactIds.size }} selected</span
   >
+  <i
+    class="icon-trash-can-outline text-gray text-2xl cursor-pointer"
+    (click)="handleDeleteAllSelectedContacts()"
+  ></i>
 </div>
 
-<ng-template
-  #tableHeader
-  class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] py-4 px-3"
+<div
+  class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] h-[50px] px-3"
+  *ngIf="selectedContactIds.size === 0"
 >
   <div class="text-dark-gray font-medium text-sm px-3">
     <span>Name</span>
@@ -34,7 +41,7 @@
     </ng-container>
     <i class="icon-dots-vertical cursor-pointer"></i>
   </div>
-</ng-template>
+</div>
 
 <ng-container *ngFor="let list of contactsList">
   <ng-container *ngIf="list.contacts">
@@ -52,7 +59,7 @@
       >
         <div class="relative flex items-center gap-5 px-3 h-full">
           <div
-            class="group relative w-[40px] h-[40px]"
+            class="group relative w-[40px] h-[40px] hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
             (click)="$event.stopPropagation()"
           >
             <div
@@ -62,7 +69,8 @@
               <span>{{ contact.name.charAt(0) | uppercase }}</span>
             </div>
             <app-check-box
-              class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px] hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
+              class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
+              (onChange)="handleCheckBox($event, contact.contactId)"
             />
           </div>
           <span class="first-letter:capitalize">{{ contact.name }}</span>

@@ -45,4 +45,19 @@ export class ContactTableComponent {
   handleTrackContact(index: number, contact: IContact) {
     return contact.contactId;
   }
+
+  handleCheckBox(event: Event, contactId: number) {
+    let { checked } = event.target as HTMLInputElement;
+    if (checked) this.selectedContactIds.add(contactId);
+    else this.selectedContactIds.delete(contactId);
+  }
+
+  handleClearAllSelectedContacts() {
+    this.selectedContactIds.clear();
+  }
+
+  handleDeleteAllSelectedContacts() {
+    let contactIds = [...this.selectedContactIds];
+    console.log(contactIds);
+  }
 }

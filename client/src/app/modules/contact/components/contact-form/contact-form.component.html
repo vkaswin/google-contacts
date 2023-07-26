@@ -1,93 +1,147 @@
 <div
   class="sticky top-0 left-0 h-[200px] border-b border-b-gray-300 z-10 bg-white"
 >
-  <p>contact-form works!</p>
+  <div class="flex justify-between h-full">
+    <div class="flex items-center gap-7">
+      <div class="self-start mt-4">
+        <i
+          class="icon-close text-dark-gray text-2xl cursor-pointer"
+          (click)="handleCloseForm()"
+        ></i>
+      </div>
+      <div
+        class="relative flex self-center w-[164px] h-[164px] bg-[#c2e7ff] rounded-full"
+      >
+        <i
+          class="absolute icon-image-plus-outline left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-4xl text-dark-gray cursor-pointer"
+        ></i>
+      </div>
+      <div class="self-center">
+        <button
+          class="flex items-center justify-center gap-1 text-sm border-1 border-gray-500 rounded-md hover:bg-light-gray bg-white w-[85px] transition-colors duration-200"
+        >
+          <i class="icon-plus text-lg text-blue"></i>
+          <span class="text-dark-gray font-medium">Label</span>
+        </button>
+      </div>
+    </div>
+    <div class="self-end justify-start w-[150px] pb-6">
+      <button
+        class="bg-blue text-white px-5 py-2 text-sm font-medium rounded-full"
+        (click)="handleSaveFrom()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
 </div>
 
-<div class="mt-4">
+<div class="mt-6 pl-6 w-[50%]">
   <div class="flex items-start gap-5">
     <i class="icon-account-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="First Name" [hasError]="false" />
-      <app-input label="Last Name" [hasError]="false" />
-      <app-input label="Nick Name" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="First Name" name="firstName" [hasError]="false" />
+      <app-input label="Last Name" name="lastName" [hasError]="false" />
+      <app-input
+        *ngIf="isExpanded"
+        label="Nick Name"
+        name="nickName"
+        [hasError]="false"
+      />
     </div>
   </div>
 
   <div class="flex items-start gap-5 mt-5">
     <i class="icon-office-building-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Company" [hasError]="false" />
-      <app-input label="Job Title" [hasError]="false" />
-      <app-input *ngIf="isExpanded" label="Department" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Company" name="company" [hasError]="false" />
+      <app-input label="Job Title" name="jobTitle" [hasError]="false" />
+      <app-input
+        *ngIf="isExpanded"
+        label="Department"
+        name="department"
+        [hasError]="false"
+      />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-email-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Email" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Email" name="email" [hasError]="false" />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-phone-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Phone" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Phone" name="phone" [hasError]="false" />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-start gap-5 mt-5">
     <i class="icon-map-marker-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Country" [hasError]="false" />
-      <app-input label="Street address" [hasError]="false" />
-      <app-input label="Street address line 2" [hasError]="false" />
-      <app-input label="State" [hasError]="false" />
-      <app-input label="City" [hasError]="false" />
-      <app-input label="Pincode" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Country" name="country" [hasError]="false" />
+      <app-input
+        label="Street address"
+        name="addressLine1"
+        [hasError]="false"
+      />
+      <app-input
+        label="Street address line 2"
+        name="addressLine2"
+        [hasError]="false"
+      />
+      <app-input label="State" name="state" [hasError]="false" />
+      <app-input label="City" name="city" [hasError]="false" />
+      <app-input label="Pincode" name="pincode" [hasError]="false" />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-cake-variant-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Birthday" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Birthday" name="birthday" [hasError]="false" />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-calendar-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Event" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Event" name="event" [hasError]="false" />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-link text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Website" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Website" name="website" [hasError]="false" />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-account-group-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Related people" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input
+        label="Related people"
+        name="relatedPeople"
+        [hasError]="false"
+      />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-message-text-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Chat" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Chat" name="chat" [hasError]="false" />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-note-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-[90%]">
-      <app-input label="Notes" [hasError]="false" />
+    <div class="flex flex-col gap-4 w-full">
+      <app-input label="Notes" name="notes" [hasError]="false" />
     </div>
   </div>
   <button

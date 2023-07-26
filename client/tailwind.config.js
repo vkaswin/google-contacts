@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        blue: "#1973E8",
         "light-silver": "#F1F3F4",
         "dark-white": "rgba(255,255,255,1)",
         "sky-blue": "#E8F0FE",
         "dark-silver": "#F5F5F5",
         "light-gray": "#EBEBEB",
-        blue: "#1973E8",
         "mild-gray": "#F2F2F2",
       },
       textColor: {
