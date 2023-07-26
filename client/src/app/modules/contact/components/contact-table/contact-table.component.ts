@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { CheckBoxComponent } from "@/app/shared/components/check-box/check-box.component";
 import { IContact, IContactList } from "../../types/contact";
 
 @Component({
   selector: "app-contact-table",
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, CheckBoxComponent],
   templateUrl: "./contact-table.component.html",
   styles: [],
 })

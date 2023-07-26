@@ -8,6 +8,7 @@ module.exports = {
         "dark-white": "rgba(255,255,255,1)",
         "sky-blue": "#E8F0FE",
         "dark-silver": "#F5F5F5",
+        blue: "#1973E8",
       },
       textColor: {
         gray: "#5f6368",

@@ -39,11 +39,19 @@
         [routerLink]="['/contact', contact.contactId, 'view']"
       >
         <div class="flex items-center gap-5 px-3">
-          <div
-            class="flex items-center justify-center text-xl text-white font-medium w-[40px] h-[40px] rounded-full"
-            [style]="{ backgroundColor: contact.colorCode }"
-          >
-            <span>{{ contact.name.charAt(0) | uppercase }}</span>
+          <div class="group relative w-[40px] h-[40px]">
+            <div
+              class="group-hover:hidden group-[&:has(input:checked)]:hidden flex items-center justify-center text-xl text-white font-medium w-full h-full rounded-full"
+              [style]="{ backgroundColor: contact.colorCode }"
+            >
+              <span>{{ contact.name.charAt(0) | uppercase }}</span>
+            </div>
+            <div
+              class="hidden group-hover:block group-[&:has(input:checked)]:block absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
+              (click)="$event.stopPropagation()"
+            >
+              <app-check-box />
+            </div>
           </div>
           <span class="first-letter:capitalize">{{ contact.name }}</span>
         </div>
@@ -64,11 +72,11 @@
             {{ contact.createdAt }}
           </span>
         </div>
-        <div class="px-3">
+        <div class="pr-3">
           <div
             class="hidden group-hover:flex items-center justify-end gap-3 text-xl text-gray"
           >
-            <ng-container *ngIf="list.isFavourite">
+            <ng-container *ngIf="!isTrash">
               <i
                 [class]="{
                   'icon-star': list.isFavourite,
