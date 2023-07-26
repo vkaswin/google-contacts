@@ -25,6 +25,8 @@ export class ContactTableComponent {
     isFavourite: boolean;
   }>();
 
+  selectedContactIds = new Set<number>();
+
   handleDelete(event: MouseEvent, contactId: number) {
     event.stopPropagation();
     this.onDelete.emit(contactId);
