@@ -39,19 +39,19 @@
         [routerLink]="['/contact', contact.contactId, 'view']"
       >
         <div class="flex items-center gap-5 px-3">
-          <div class="group relative w-[40px] h-[40px]">
+          <div
+            class="group relative w-[40px] h-[40px]"
+            (click)="$event.stopPropagation()"
+          >
             <div
               class="group-hover:hidden group-[&:has(input:checked)]:hidden flex items-center justify-center text-xl text-white font-medium w-full h-full rounded-full"
               [style]="{ backgroundColor: contact.colorCode }"
             >
               <span>{{ contact.name.charAt(0) | uppercase }}</span>
             </div>
-            <div
-              class="hidden group-hover:block group-[&:has(input:checked)]:block absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
-              (click)="$event.stopPropagation()"
-            >
-              <app-check-box />
-            </div>
+            <app-check-box
+              class="hidden group-hover:flex group-[&:has(input:checked)]:flex justify-center items-center absolute left-0 top-0 w-full h-full hover:bg-light-gray group-[&:has(input:checked)]:hover:bg-sky-blue rounded-full"
+            />
           </div>
           <span class="first-letter:capitalize">{{ contact.name }}</span>
         </div>
