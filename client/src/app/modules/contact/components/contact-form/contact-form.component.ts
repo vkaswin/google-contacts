@@ -7,12 +7,16 @@ import {
   FormGroup,
   FormControl,
 } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 import { InputComponent } from "@/app/shared/components/input/input.component";
+import { ContactService } from "../../services/contact.service";
+import { IContactDetail } from "../../types/contact";
 
 @Component({
   selector: "app-contact-form",
   standalone: true,
   imports: [CommonModule, InputComponent, ReactiveFormsModule],
+  providers: [ContactService],
   templateUrl: "./contact-form.component.html",
   styles: [],
 })
@@ -20,8 +24,17 @@ export class ContactFormComponent implements OnInit {
   form: FormGroup;
   isExpanded = false;
   isSubmitted = false;
+  isReadOnly = false;
+  contactDetail = {} as IContactDetail;
+  isLoading = true;
 
-  constructor(private fb: FormBuilder, private location: Location) {
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private location: Location,
+    private contactService: ContactService,
+    private route: ActivatedRoute
+  ) {
     this.form = fb.group({
       firstName: fb.control(null, [
         Validators.required,
@@ -29,11 +42,11 @@ export class ContactFormComponent implements OnInit {
         Validators.pattern(/^[a-zA-Z]*$/),
       ]),
       lastName: fb.control(null, [
-        Validators.min(3),
+        Validators.minLength(3),
         Validators.pattern(/^[a-zA-Z]*$/),
       ]),
       nickName: fb.control(null, [
-        Validators.min(3),
+        Validators.minLength(3),
         Validators.pattern(/^[a-zA-Z]*$/),
       ]),
       company: fb.control(null),
@@ -64,7 +77,22 @@ export class ContactFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe(({ contactId }) => {
+      this.getContactDetail(contactId);
+    });
+  }
+
+  getContactDetail(contactId: string) {
+    let url = this.router.url;
+    this.isReadOnly = url.endsWith("view");
+    this.contactService.getContactById(contactId).subscribe((res) => {
+      console.log(res);
+      this.isLoading = false;
+      if (url.endsWith("edit")) {
+      }
+    });
+  }
 
   get firstName() {
     return this.form.controls["firstName"] as FormControl;

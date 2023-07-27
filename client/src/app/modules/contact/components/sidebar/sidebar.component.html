@@ -72,8 +72,14 @@
       <span class="text-sm">1</span>
     </div>
     <div class="hidden items-center gap-3 group-hover:flex">
-      <i class="icon-trash-can-outline text-xl"></i>
-      <i class="icon-pencil-outline text-xl"></i>
+      <i
+        class="icon-trash-can-outline text-xl"
+        (click)="handleDeleteLabel($event, label.id)"
+      ></i>
+      <i
+        class="icon-pencil-outline text-xl"
+        (click)="handleEditLabel($event, label.id)"
+      ></i>
     </div>
   </button>
 </div>

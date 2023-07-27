@@ -12,9 +12,13 @@
       <div
         class="relative flex self-center w-[164px] h-[164px] bg-[#c2e7ff] rounded-full"
       >
-        <i
-          class="absolute icon-image-plus-outline left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-4xl text-dark-gray cursor-pointer"
-        ></i>
+        <label
+          for="file-upload"
+          class="absolute z-10 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[36px] h-[36px] cursor-pointer"
+        >
+          <i class="icon-image-plus-outline text-4xl text-dark-gray"></i>
+          <input id="file-upload" type="file" hidden />
+        </label>
       </div>
       <div class="self-center">
         <button
@@ -66,7 +70,7 @@
         label="Nick Name"
         name="nickName"
         [control]="nickName"
-        [hasError]="isSubmitted && nickName !== null"
+        [hasError]="isSubmitted && nickName.errors !== null"
         [errorMessage]="{
           minlength: 'Nick name should contain atleast 3 characters',
           pattern: 'Nick name should contain alphapets only'

@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { ILabel } from "../types/contact";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -12,9 +14,14 @@ export class ContactService {
     { id: 2, title: "Office" },
   ];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   setIsExpanded(value: boolean) {
     this.isExpanded = value;
+  }
+
+  getContactById(contactId: string) {
+    return new Observable();
+    return this.http.get(`/${contactId}`, {});
   }
 }
