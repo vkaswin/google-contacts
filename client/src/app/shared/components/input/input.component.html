@@ -9,11 +9,16 @@
     <input
       type="text"
       placeholder="placeholder"
-      class="border border-gray-500 rounded-[4px] h-[40px] px-4 outline-none [&:not(:placeholder-shown)]:border-2 [&:not(:placeholder-shown)]:border-[#1a73e8] focus:border-[#1a73e8] focus:border-2 aria-[invalid=true]:border-[#d50000] aria-[invalid=true]:border-2 placeholder:text-transparent"
+      class="border border-gray-500 rounded-[4px] h-[40px] px-4 outline-none [&:not(:placeholder-shown)]:border-2 [&:not(:placeholder-shown)]:border-[#1a73e8] focus:border-[#1a73e8] focus:border-2 [&:not([aria-invalid='false'])]:border-[#d50000] aria-[invalid=true]:border-2 placeholder:text-transparent"
       [id]="name"
-      [name]="name"
+      autocomplete="off"
       [attr.aria-invalid]="hasError"
+      [formControl]="control"
     />
-    <span *ngIf="hasError" class="text-sm text-red-600">Please enter name</span>
+    <span
+      *ngIf="hasError && errorType && errorMessage[errorType]"
+      class="text-sm text-red-600"
+      >{{ errorMessage[errorType] }}
+    </span>
   </div>
 </div>

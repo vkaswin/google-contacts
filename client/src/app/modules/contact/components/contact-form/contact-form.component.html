@@ -36,17 +36,41 @@
   </div>
 </div>
 
-<div class="mt-6 pl-6 w-[50%]">
+<form class="mt-6 pl-6 w-[50%]" [formGroup]="form">
   <div class="flex items-start gap-5">
     <i class="icon-account-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-full">
-      <app-input label="First Name" name="firstName" [hasError]="false" />
-      <app-input label="Last Name" name="lastName" [hasError]="false" />
+    <div class="flex flex-col gap-7 w-full">
+      <app-input
+        label="First Name"
+        name="firstName"
+        [control]="firstName"
+        [hasError]="isSubmitted && firstName.errors !== null"
+        [errorMessage]="{
+          required: 'Please enter first name',
+          minlength: 'First name should contain atleast 3 characters',
+          pattern: 'First name should contain alphapets only'
+        }"
+      />
+      <app-input
+        label="Last Name"
+        name="lastName"
+        [control]="lastName"
+        [hasError]="isSubmitted && lastName.errors !== null"
+        [errorMessage]="{
+          minlength: 'First name should contain atleast 3 characters',
+          pattern: 'Last name should contain alphapets only'
+        }"
+      />
       <app-input
         *ngIf="isExpanded"
         label="Nick Name"
         name="nickName"
-        [hasError]="false"
+        [control]="nickName"
+        [hasError]="isSubmitted && nickName !== null"
+        [errorMessage]="{
+          minlength: 'Nick name should contain atleast 3 characters',
+          pattern: 'Nick name should contain alphapets only'
+        }"
       />
     </div>
   </div>
@@ -54,13 +78,13 @@
   <div class="flex items-start gap-5 mt-5">
     <i class="icon-office-building-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Company" name="company" [hasError]="false" />
-      <app-input label="Job Title" name="jobTitle" [hasError]="false" />
+      <app-input label="Company" name="company" [control]="company" />
+      <app-input label="Job Title" name="jobTitle" [control]="jobTitle" />
       <app-input
         *ngIf="isExpanded"
         label="Department"
         name="department"
-        [hasError]="false"
+        [control]="department"
       />
     </div>
   </div>
@@ -68,55 +92,92 @@
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-email-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Email" name="email" [hasError]="false" />
+      <app-input
+        label="Email"
+        name="email"
+        [control]="email"
+        [hasError]="isSubmitted && email.errors !== null"
+        [errorMessage]="{
+          email: 'Invalid email'
+        }"
+      />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-phone-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Phone" name="phone" [hasError]="false" />
+      <app-input
+        label="Phone"
+        name="phone"
+        [control]="phone"
+        [hasError]="isSubmitted && phone.errors !== null"
+        [errorMessage]="{ pattern: 'Invalid phone number' }"
+      />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-start gap-5 mt-5">
     <i class="icon-map-marker-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Country" name="country" [hasError]="false" />
+      <app-input label="Country" name="country" />
       <app-input
         label="Street address"
         name="addressLine1"
-        [hasError]="false"
+        [control]="addressLine1"
       />
       <app-input
         label="Street address line 2"
         name="addressLine2"
-        [hasError]="false"
+        [control]="addressLine2"
       />
-      <app-input label="State" name="state" [hasError]="false" />
-      <app-input label="City" name="city" [hasError]="false" />
-      <app-input label="Pincode" name="pincode" [hasError]="false" />
+      <app-input label="State" name="state" />
+      <app-input label="City" name="city" />
+      <app-input
+        label="Pincode"
+        name="pincode"
+        [hasError]="isSubmitted && pincode.errors !== null"
+        [errorMessage]="{
+          pattern: 'Invalid pincode'
+        }"
+      />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-cake-variant-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Birthday" name="birthday" [hasError]="false" />
+      <app-input
+        label="Birthday"
+        name="birthday"
+        [control]="birthday"
+        [hasError]="isSubmitted && birthday.errors !== null"
+        [errorMessage]="{
+          pattern: 'Invalid birthday date'
+        }"
+      />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-calendar-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Event" name="event" [hasError]="false" />
+      <app-input label="Event" name="event" [control]="event" />
     </div>
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-link text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Website" name="website" [hasError]="false" />
+      <app-input
+        label="Website"
+        name="website"
+        [control]="website"
+        [hasError]="isSubmitted && website.errors !== null"
+        [errorMessage]="{
+          pattern: 'Invalid website url'
+        }"
+      />
     </div>
   </div>
 
@@ -126,7 +187,7 @@
       <app-input
         label="Related people"
         name="relatedPeople"
-        [hasError]="false"
+        [control]="relatedPeople"
       />
     </div>
   </div>
@@ -134,14 +195,14 @@
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-message-text-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Chat" name="chat" [hasError]="false" />
+      <app-input label="Chat" name="chat" [control]="chat" />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-note-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Notes" name="notes" [hasError]="false" />
+      <app-input label="Notes" name="notes" [control]="notes" />
     </div>
   </div>
   <button
@@ -150,4 +211,4 @@
   >
     Show {{ isExpanded ? "less" : "more" }}
   </button>
-</div>
+</form>
