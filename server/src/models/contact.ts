@@ -1,64 +1,108 @@
-import { Schema, model } from "mongoose";
+import { DataTypes } from "sequelize";
+import { sequelize } from "../database/config";
 
-export const ContactSchema = new Schema(
+const Contact = sequelize.define(
+  "Contact",
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     firstName: {
-      type: String,
-      required: [true, "Please add first name"],
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     lastName: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    nickName: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     company: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     jobTitle: {
-      type: String,
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    department: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     email: {
-      type: String,
-    },
-    birthday: {
-      type: String,
-    },
-    address: {
-      type: {
-        line1: String,
-        line2: String,
-        pincode: String,
-        city: String,
-        state: String,
-        country: String,
-      },
-      default: {},
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     phone: {
-      type: [
-        {
-          countryCode: String,
-          number: String,
-          title: String,
-        },
-      ],
-      defaut: [],
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    imageUrl: {
-      type: String,
+    country: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    label: {
-      type: [Schema.Types.ObjectId],
-      default: [],
+    addressLine1: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    starred: {
-      type: Boolean,
-      default: false,
+    addressLine2: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      index: true,
+    state: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    pincode: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    birthday: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    event: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    website: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    relatedPeople: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    chat: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    notes: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    colorCode: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdBy: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
     },
   },
-  { timestamps: true }
+  { timestamps: true, tableName: "contacts" }
 );
 
-export default model("Contact", ContactSchema);
+export default Contact;

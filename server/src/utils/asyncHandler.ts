@@ -1,6 +1,5 @@
 import { Response, Request, NextFunction } from "express";
 import { JsonWebTokenError } from "jsonwebtoken";
-import { ZodError } from "zod";
 
 class CustomError extends Error {
   status!: number;
@@ -19,12 +18,7 @@ const asyncHandler = <T>(
       await cb(req, res, next);
     } catch (error: any) {
       let status =
-        error?.status ||
-        (error instanceof JsonWebTokenError
-          ? 401
-          : error instanceof ZodError
-          ? 400
-          : 500);
+        error?.status || (error instanceof JsonWebTokenError ? 401 : 500);
       let message = error?.message || "Internal Server Error";
 
       res.status(status).send({ message });
