@@ -1,133 +1,141 @@
-<div
-  *ngIf="selectedContactIds.size !== 0"
-  class="flex items-center border-b-1 borer-b-[rgba(0,0,0,.12)] gap-3 h-[50px] px-3"
->
-  <i
-    class="icon-minus-box text-blue text-2xl cursor-pointer"
-    (click)="handleClearAllSelectedContacts()"
-  ></i>
-  <span class="text-sm text-blue font-medium"
-    >{{ selectedContactIds.size }} selected</span
-  >
-  <i
-    class="icon-trash-can-outline text-gray text-2xl cursor-pointer"
-    (click)="handleDeleteAllSelectedContacts()"
-  ></i>
-</div>
-
-<div
-  class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] h-[50px] px-3"
-  *ngIf="selectedContactIds.size === 0"
->
-  <div class="text-dark-gray font-medium text-sm px-3">
-    <span>Name</span>
-  </div>
-  <div class="text-dark-gray font-medium text-sm px-3">
-    <span>Email</span>
-  </div>
-  <div class="text-dark-gray font-medium text-sm px-3">
-    <span>Phone Number</span>
-  </div>
-  <div class="text-dark-gray font-medium text-sm px-3">
-    <span *ngIf="!isTrash">Job Title & Company</span>
-    <span *ngIf="isTrash">Date deleted</span>
-  </div>
+<div class="sticky top-0 left-0 z-10 bg-white">
   <div
-    class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
+    *ngIf="selectedContactIds.size !== 0"
+    class="flex items-center border-b-1 borer-b-[rgba(0,0,0,.12)] gap-3 h-[50px] px-3"
   >
-    <ng-container *ngIf="!isTrash">
-      <i class="icon-printer-outline cursor-pointer"></i>
-      <i class="icon-export-variant cursor-pointer"></i>
-    </ng-container>
-    <i class="icon-dots-vertical cursor-pointer"></i>
+    <i
+      class="icon-minus-box text-blue text-2xl cursor-pointer"
+      (click)="handleClearAllSelectedContacts()"
+    ></i>
+    <span class="text-sm text-blue font-medium"
+      >{{ selectedContactIds.size }} selected</span
+    >
+    <i
+      class="icon-trash-can-outline text-gray text-2xl cursor-pointer"
+      (click)="handleDeleteAllSelectedContacts()"
+    ></i>
+  </div>
+
+  <div
+    class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] h-[50px] px-3"
+    *ngIf="selectedContactIds.size === 0"
+  >
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Name</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Email</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Phone Number</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span *ngIf="!isTrash">Job Title & Company</span>
+      <span *ngIf="isTrash">Date deleted</span>
+    </div>
+    <div
+      class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
+    >
+      <ng-container *ngIf="!isTrash">
+        <i class="icon-printer-outline cursor-pointer"></i>
+        <i class="icon-export-variant cursor-pointer"></i>
+      </ng-container>
+      <i class="icon-dots-vertical cursor-pointer"></i>
+    </div>
   </div>
 </div>
 
-<ng-container *ngFor="let list of contactsList">
-  <ng-container *ngIf="list.contacts">
-    <div class="p-3">
-      <span class="text-gray font-medium text-xs capitalize"
-        >{{ list.title }} ({{ list.contacts.length }})</span
-      >
-    </div>
-    <div class="flex flex-col">
-      <div
-        class="relative group grid grid-cols-contact items-center text-sm py-2 [&:is([aria-selected='true'])]:bg-mild-gray [&:is([aria-selected='false'])]:hover:bg-dark-silver transition-colors duration-200 cursor-pointer before:hidden before:focus-within:block before:content-[''] before:absolute before:w-1 before:rounded-tr-md before:rounded-br-md before:bg-blue before:h-full"
-        *ngFor="let contact of list.contacts; trackBy: handleTrackContact"
-        [routerLink]="['/contact', contact.contactId, 'view']"
-        [attr.aria-selected]="selectedContactIds.has(contact.contactId)"
-      >
-        <div class="relative flex items-center gap-5 px-3 h-full">
-          <div
-            class="group relative w-[40px] h-[40px] hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
-            (click)="$event.stopPropagation()"
-          >
+<div class="relative">
+  <ng-container *ngFor="let list of contactsList">
+    <ng-container *ngIf="list.contacts">
+      <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
+        <span class="text-gray font-medium text-xs capitalize"
+          >{{ list.title }} ({{ list.contacts.length }})</span
+        >
+      </div>
+      <div class="flex flex-col">
+        <div
+          class="relative group grid grid-cols-contact items-center text-sm py-2 [&:is([aria-selected='true'])]:bg-mild-gray [&:is([aria-selected='false'])]:hover:bg-dark-silver transition-colors duration-200 cursor-pointer before:hidden before:focus-within:block before:content-[''] before:absolute before:w-1 before:rounded-tr-md before:rounded-br-md before:bg-blue before:h-full"
+          *ngFor="let contact of list.contacts; trackBy: handleTrackContact"
+          [routerLink]="['/contact', contact.contactId, 'view']"
+          [attr.aria-selected]="selectedContactIds.has(contact.contactId)"
+        >
+          <div class="relative flex items-center gap-5 px-3 h-full">
             <div
-              class="group-hover:hidden group-[&:is([aria-selected='true'])]:hidden flex items-center justify-center text-xl text-white font-medium w-full h-full rounded-full"
-              [style]="{ backgroundColor: contact.colorCode }"
+              class="group relative w-[40px] h-[40px] hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
+              (click)="$event.stopPropagation()"
             >
-              <span>{{ contact.name.charAt(0) | uppercase }}</span>
-            </div>
-            <app-check-box
-              class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
-              (onChange)="handleCheckBox($event, contact.contactId)"
-            />
-          </div>
-          <span class="first-letter:capitalize">{{ contact.name }}</span>
-        </div>
-        <div class="px-3 py-2">
-          <span>{{ contact.email }}</span>
-        </div>
-        <div class="px-3 py-2">
-          <span>+91 {{ contact.phone }}</span>
-        </div>
-        <div class="px-3 py-2">
-          <span *ngIf="!isTrash"
-            >{{ contact.company }}
-            <ng-container *ngIf="contact.jobTitle">
-              , {{ contact.jobTitle }}
-            </ng-container>
-          </span>
-          <span *ngIf="isTrash">
-            {{ contact.createdAt }}
-          </span>
-        </div>
-        <div class="pr-3">
-          <div
-            class="hidden group-hover:flex items-center justify-end gap-3 text-xl text-gray"
-          >
-            <ng-container *ngIf="!isTrash">
-              <i
-                [class]="{
-                  'icon-star': list.isFavourite,
-                  'text-light-blue': list.isFavourite,
-                  'icon-star-outline': !list.isFavourite
-                }"
-                (click)="
-                  handleFavourite($event, contact.contactId, !list.isFavourite)
-                "
-              ></i>
-              <i
-                class="icon-pencil-outline"
-                (click)="$event.stopPropagation()"
-                [routerLink]="['/contact', contact.contactId, 'edit']"
-              ></i>
-              <i
-                class="icon-trash-can-outline"
-                (click)="handleDelete($event, contact.contactId)"
-              ></i>
-            </ng-container>
-            <ng-container *ngIf="isTrash">
-              <button
-                (click)="handleRecover($event, contact.contactId)"
-                class="text-light-blue text-sm font-medium bg-sky-blue px-2 py-1 rounded-sm"
+              <div
+                class="group-hover:hidden group-[&:is([aria-selected='true'])]:hidden flex items-center justify-center text-xl text-white font-medium w-full h-full rounded-full"
+                [style]="{ backgroundColor: contact.colorCode }"
               >
-                Recover
-              </button>
-            </ng-container>
+                <span>{{ contact.name.charAt(0) | uppercase }}</span>
+              </div>
+              <app-check-box
+                class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
+                (onChange)="handleCheckBox($event, contact.contactId)"
+              />
+            </div>
+            <span class="first-letter:capitalize">{{ contact.name }}</span>
+          </div>
+          <div class="px-3 py-2">
+            <span>{{ contact.email }}</span>
+          </div>
+          <div class="px-3 py-2">
+            <span>+91 {{ contact.phone }}</span>
+          </div>
+          <div class="px-3 py-2">
+            <span *ngIf="!isTrash"
+              >{{ contact.company }}
+              <ng-container *ngIf="contact.jobTitle">
+                , {{ contact.jobTitle }}
+              </ng-container>
+            </span>
+            <span *ngIf="isTrash">
+              {{ contact.createdAt }}
+            </span>
+          </div>
+          <div class="pr-3">
+            <div
+              class="hidden group-hover:flex items-center justify-end gap-3 text-xl text-gray"
+            >
+              <ng-container *ngIf="!isTrash">
+                <i
+                  [class]="{
+                    'icon-star': list.isFavourite,
+                    'text-light-blue': list.isFavourite,
+                    'icon-star-outline': !list.isFavourite
+                  }"
+                  (click)="
+                    handleFavourite(
+                      $event,
+                      contact.contactId,
+                      !list.isFavourite
+                    )
+                  "
+                ></i>
+                <i
+                  class="icon-pencil-outline"
+                  (click)="$event.stopPropagation()"
+                  [routerLink]="['/contact', contact.contactId, 'edit']"
+                ></i>
+                <i
+                  class="icon-trash-can-outline"
+                  (click)="handleDelete($event, contact.contactId)"
+                ></i>
+              </ng-container>
+              <ng-container *ngIf="isTrash">
+                <button
+                  (click)="handleRecover($event, contact.contactId)"
+                  class="text-light-blue text-sm font-medium bg-sky-blue px-2 py-1 rounded-sm"
+                >
+                  Recover
+                </button>
+              </ng-container>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </ng-container>
-</ng-container>
+</div>
