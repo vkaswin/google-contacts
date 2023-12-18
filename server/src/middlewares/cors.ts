@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 type CORS = (req: Request, res: Response, next: NextFunction) => void;
 
-let allowedOrigins = ["https://vkaswin.github.io", "http://localhost:3001"];
+let regex = /^(?:https?:\/\/vkaswin\.github\.io|http?:\/\/localhost:\d+)$/;
 
 let allowedHeaders = ["Authorization", "Content-Type"];
 
@@ -10,17 +10,16 @@ const cors: CORS = (req, res, next) => {
   let origin = req.headers.origin;
   let method = req.method;
 
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && regex.test(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, PUT, DELETE, OPTIONS"
-    );
+    res.setHeader("Access-Control-Allow-Methods", "*");
     res.setHeader("Access-Control-Allow-Headers", allowedHeaders.join(", "));
     res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    return method == "OPTIONS" ? res.status(200).end() : next();
   }
 
-  method === "OPTIONS" ? res.status(200).end() : next();
+  return res.status(403).end();
 };
 
 export default cors;

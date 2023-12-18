@@ -25,9 +25,11 @@ export const connect = async () => {
     console.log("Connection has been established successfully.");
 
     for (let fileName of models) {
-      let res = await import(`../models/${fileName}`);
-      res.default.sync({ force: false });
+      let modal = await import(`../models/${fileName}`);
+      modal.default.sync();
     }
+
+    console.log("Modals synced successfully");
   } catch (error) {
     console.error("Unable to connect to the database:", error);
   }

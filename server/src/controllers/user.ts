@@ -1,5 +1,5 @@
 import User from "../models/user";
-import { asyncHandler } from "../utils/asyncHandler";
+import { asyncHandler } from "../utils";
 
 const signIn = asyncHandler(async (req, res) => {});
 

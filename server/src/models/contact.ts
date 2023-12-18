@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/config";
+import { getRandomColorCode } from "../utils";
 
 const Contact = sequelize.define(
   "Contact",
@@ -92,6 +93,7 @@ const Contact = sequelize.define(
     colorCode: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: getRandomColorCode,
     },
     createdBy: {
       type: DataTypes.INTEGER,
