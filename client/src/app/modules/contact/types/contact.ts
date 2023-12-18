@@ -4,25 +4,22 @@ export type ILabel = {
 };
 
 export type IContact = {
-  contactId: number;
+  id: number;
+  firstName: string;
+  lastName: string;
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   jobTitle: string;
   company: string;
+  isFavourite: boolean;
   colorCode: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type IContactList = {
-  title: string;
-  contacts: IContact[];
-  isFavourite?: boolean;
-}[];
-
 export type IContactDetail = {
-  contactId: string;
+  id: string;
   firstName: string;
   lastName: string;
   nickName: string;
@@ -45,4 +42,5 @@ export type IContactDetail = {
   notes: string;
   createdAt: string;
   updatedAt: string;
+  isFavourite: boolean;
 };

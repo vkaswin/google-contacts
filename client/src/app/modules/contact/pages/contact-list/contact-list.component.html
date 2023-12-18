@@ -1,5 +1,40 @@
-<app-contact-table
-  [contactsList]="constactsList"
-  (onDelete)="handleDelete($event)"
-  (onFavourite)="handleFavourite($event)"
-/>
+<ng-container *ngIf="favouritesList.length !== 0 || contactsList.length !== 0">
+  <app-contact-header
+    [isTrash]="false"
+    [selectedContacts]="selectedContactIds.size"
+    (onDeleteSelectedContacts)="handleDeleteAllSelectedContacts()"
+    (onClearSelectedContacts)="handleClearAllSelectedContacts()"
+  />
+  <div class="relative">
+    <ng-container *ngIf="favouritesList.length !== 0">
+      <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
+        <span class="text-gray font-medium text-xs capitalize"
+          >STARRED CONTACTS ({{ favouritesList.length }})</span
+        >
+      </div>
+      <div class="flex flex-col">
+        <app-contact-list
+          [contacts]="favouritesList"
+          [selectedContactIds]="selectedContactIds"
+          (onDelete)="handleDelete($event)"
+          (onFavourite)="handleFavourite($event)"
+          (onChange)="handleChange($event)"
+        />
+      </div>
+    </ng-container>
+    <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
+      <span class="text-gray font-medium text-xs capitalize"
+        >CONTACTS ({{ contactsList.length }})</span
+      >
+    </div>
+    <div class="flex flex-col">
+      <app-contact-list
+        [contacts]="contactsList"
+        [selectedContactIds]="selectedContactIds"
+        (onDelete)="handleDelete($event)"
+        (onFavourite)="handleFavourite($event)"
+        (onChange)="handleChange($event)"
+      />
+    </div>
+  </div>
+</ng-container>

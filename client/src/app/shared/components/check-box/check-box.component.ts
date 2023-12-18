@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -9,5 +9,7 @@ import { CommonModule } from "@angular/common";
   styles: [],
 })
 export class CheckBoxComponent {
+  @Input() checked = false;
+
   @Output() onChange = new EventEmitter<Event>();
 }

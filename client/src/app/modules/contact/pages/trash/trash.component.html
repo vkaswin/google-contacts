@@ -12,8 +12,27 @@
   </button>
 </div>
 
-<app-contact-table
-  [contactsList]="contactsList"
-  (onRecover)="handleRecover($event)"
-  [isTrash]="true"
-/>
+<ng-container *ngIf="contactsList.length !== 0">
+  <app-contact-header
+    [isTrash]="true"
+    [selectedContacts]="selectedContactIds.size"
+    (onClearSelectedContacts)="handleClearAllSelectedContacts()"
+    (onDeleteSelectedContacts)="handleDeleteAllSelectedContacts()"
+  />
+  <div class="relative">
+    <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
+      <span class="text-gray font-medium text-xs capitalize"
+        >Trash ({{ contactsList.length }})</span
+      >
+    </div>
+    <div class="flex flex-col">
+      <app-contact-list
+        [isTrash]="true"
+        [contacts]="contactsList"
+        [selectedContactIds]="selectedContactIds"
+        (onRecover)="handleRecover($event)"
+        (onChange)="handleChange($event)"
+      />
+    </div>
+  </div>
+</ng-container>

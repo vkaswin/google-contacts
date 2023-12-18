@@ -1,0 +1,46 @@
+<div class="sticky top-0 left-0 z-10 bg-white">
+  <div
+    *ngIf="selectedContacts !== 0"
+    class="flex items-center border-b-1 borer-b-[rgba(0,0,0,.12)] gap-3 h-[50px] px-3"
+  >
+    <i
+      class="icon-minus-box text-blue text-2xl cursor-pointer"
+      (click)="handleClearAllSelectedContacts()"
+    ></i>
+    <span class="text-sm text-blue font-medium"
+      >{{ selectedContacts }} selected</span
+    >
+    <i
+      class="icon-trash-can-outline text-gray text-2xl cursor-pointer"
+      (click)="handleDeleteAllSelectedContacts()"
+    ></i>
+  </div>
+
+  <div
+    class="grid grid-cols-contact items-center border-b-1 borer-b-[rgba(0,0,0,.12)] h-[50px] px-3"
+    *ngIf="selectedContacts === 0"
+  >
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Name</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Email</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span>Phone Number</span>
+    </div>
+    <div class="text-dark-gray font-medium text-sm px-3">
+      <span *ngIf="!isTrash">Job Title & Company</span>
+      <span *ngIf="isTrash">Date deleted</span>
+    </div>
+    <div
+      class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
+    >
+      <ng-container *ngIf="!isTrash">
+        <i class="icon-printer-outline cursor-pointer"></i>
+        <i class="icon-export-variant cursor-pointer"></i>
+      </ng-container>
+      <i class="icon-dots-vertical cursor-pointer"></i>
+    </div>
+  </div>
+</div>

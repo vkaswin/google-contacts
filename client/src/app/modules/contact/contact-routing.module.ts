@@ -12,7 +12,7 @@ export const ContactRoutes: Routes = [
         path: "list",
         loadComponent: async () => {
           let c = await import("./pages/contact-list/contact-list.component");
-          return c.ContactListComponent;
+          return c.ContactListPageComponent;
         },
       },
       {

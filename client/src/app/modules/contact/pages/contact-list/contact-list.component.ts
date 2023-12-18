@@ -1,85 +1,33 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ContactTableComponent } from "../../components/contact-table/contact-table.component";
-import { IContactList } from "../../types/contact";
+import { ContactListComponent } from "../../components/contact-list/contact-list.component";
+import { ContactHeaderComponent } from "../../components/contact-header/contact-header.component";
+import { IContact } from "../../types/contact";
+import { ContactService } from "../../services/contact.service";
 
 @Component({
-  selector: "app-contact-list",
+  selector: "app-contact-list-page",
   standalone: true,
-  imports: [CommonModule, ContactTableComponent],
+  imports: [CommonModule, ContactListComponent, ContactHeaderComponent],
   templateUrl: "./contact-list.component.html",
   styles: [],
 })
-export class ContactListComponent {
-  constactsList: IContactList = [
-    {
-      title: "STARRED CONTACTS",
-      isFavourite: true,
-      contacts: [
-        {
-          contactId: 1,
-          name: "john Doe",
-          phone: 9342342323,
-          jobTitle: "Software Engineer",
-          company: "Zoho",
-          email: "john@gmail.com",
-          colorCode: "#EF4770",
-          createdAt: "Yesterday, 5:11 PM",
-          updatedAt: "Yesterday, 5:11 PM",
-        },
-        {
-          contactId: 2,
-          name: "Michel Jordan",
-          phone: 8015127363,
-          jobTitle: "",
-          company: "",
-          email: "michel@gmail.com",
-          colorCode: "#6F6F6F",
-          createdAt: "Yesterday, 5:11 PM",
-          updatedAt: "Yesterday, 5:11 PM",
-        },
-      ],
-    },
-    {
-      title: "CONTACTS",
-      isFavourite: false,
-      contacts: [
-        {
-          contactId: 3,
-          name: "John Doe",
-          phone: 9342342323,
-          jobTitle: "Software Engineer",
-          company: "Zoho",
-          email: "john@gmail.com",
-          colorCode: "#DCB604",
-          createdAt: "Yesterday, 5:11 PM",
-          updatedAt: "Yesterday, 5:11 PM",
-        },
-        {
-          contactId: 4,
-          name: "Karthick",
-          phone: 8015127363,
-          jobTitle: "",
-          company: "",
-          email: "karthick@gmail.com",
-          colorCode: "#199393",
-          createdAt: "Yesterday, 5:11 PM",
-          updatedAt: "Yesterday, 5:11 PM",
-        },
-        {
-          contactId: 5,
-          name: "Mom",
-          phone: 9094825472,
-          jobTitle: "",
-          company: "",
-          email: "",
-          colorCode: "#029ACD",
-          createdAt: "Yesterday, 5:11 PM",
-          updatedAt: "Yesterday, 5:11 PM",
-        },
-      ],
-    },
-  ];
+export class ContactListPageComponent implements OnInit {
+  contactsList: IContact[] = [];
+
+  selectedContactIds = new Set<number>();
+
+  constructor(private contactService: ContactService) {}
+
+  get favouritesList() {
+    return this.contactsList.filter(({ isFavourite }) => isFavourite);
+  }
+
+  ngOnInit(): void {
+    this.contactService.getAllContacts().subscribe(({ data: { contacts } }) => {
+      this.contactsList = contacts;
+    });
+  }
 
   handleDelete(contactId: number) {
     console.log(contactId, "delete");
@@ -93,5 +41,25 @@ export class ContactListComponent {
     isFavourite: boolean;
   }) {
     console.log(contactId, isFavourite, "favourite");
+  }
+
+  handleChange({
+    checked,
+    contactId,
+  }: {
+    checked: boolean;
+    contactId: number;
+  }) {
+    if (checked) this.selectedContactIds.add(contactId);
+    else this.selectedContactIds.delete(contactId);
+  }
+
+  handleClearAllSelectedContacts() {
+    this.selectedContactIds.clear();
+  }
+
+  handleDeleteAllSelectedContacts() {
+    let contactIds = [...this.selectedContactIds];
+    console.log(contactIds);
   }
 }

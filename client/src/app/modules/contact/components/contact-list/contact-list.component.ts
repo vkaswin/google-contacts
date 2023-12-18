@@ -2,19 +2,28 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { CheckBoxComponent } from "@/app/shared/components/check-box/check-box.component";
-import { IContact, IContactList } from "../../types/contact";
+import { IContact } from "@/app/modules/contact/types/contact";
 
 @Component({
-  selector: "app-contact-table",
+  selector: "app-contact-list",
   standalone: true,
   imports: [CommonModule, RouterLink, CheckBoxComponent],
-  templateUrl: "./contact-table.component.html",
+  templateUrl: "./contact-list.component.html",
   styles: [],
 })
-export class ContactTableComponent {
-  @Input() contactsList: IContactList = [];
+export class ContactListComponent {
+  @Input() contacts: IContact[] = [];
+
+  @Input() selectedContactIds: Set<number> = new Set();
 
   @Input() isTrash = false;
+
+  @Input() isFavourite = false;
+
+  @Output() onChange = new EventEmitter<{
+    checked: boolean;
+    contactId: number;
+  }>();
 
   @Output() onDelete = new EventEmitter<number>();
 
@@ -25,7 +34,14 @@ export class ContactTableComponent {
     isFavourite: boolean;
   }>();
 
-  selectedContactIds = new Set<number>();
+  handleCheckBox(event: Event, contactId: number) {
+    let { checked } = event.target as HTMLInputElement;
+    this.onChange.emit({ checked, contactId });
+  }
+
+  handleTrackContact(index: number, contact: IContact) {
+    return contact.id;
+  }
 
   handleDelete(event: MouseEvent, contactId: number) {
     event.stopPropagation();
@@ -40,24 +56,5 @@ export class ContactTableComponent {
   handleRecover(event: MouseEvent, contactId: number) {
     event.stopPropagation();
     this.onRecover.emit(contactId);
-  }
-
-  handleTrackContact(index: number, contact: IContact) {
-    return contact.contactId;
-  }
-
-  handleCheckBox(event: Event, contactId: number) {
-    let { checked } = event.target as HTMLInputElement;
-    if (checked) this.selectedContactIds.add(contactId);
-    else this.selectedContactIds.delete(contactId);
-  }
-
-  handleClearAllSelectedContacts() {
-    this.selectedContactIds.clear();
-  }
-
-  handleDeleteAllSelectedContacts() {
-    let contactIds = [...this.selectedContactIds];
-    console.log(contactIds);
   }
 }

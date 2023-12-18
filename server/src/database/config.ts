@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const models = ["user.ts", "contact.ts", "label.ts", "trash.ts"];
+const models = ["user", "contact", "label", "trash"];
 const DB = process.env.DB as string;
 const userName =
   process.env.NODE_ENV === "development"
@@ -26,7 +26,7 @@ export const connect = async () => {
 
     for (let fileName of models) {
       let modal = await import(`../models/${fileName}`);
-      modal.default.sync();
+      await modal.default.sync();
     }
 
     console.log("Modals synced successfully");
