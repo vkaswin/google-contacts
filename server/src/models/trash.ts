@@ -5,9 +5,10 @@ const Trash = sequelize.define(
   "Trash",
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+      allowNull: false,
     },
   },
   { timestamps: true, tableName: "trash" }

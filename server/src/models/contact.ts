@@ -6,9 +6,10 @@ const Contact = sequelize.define(
   "Contact",
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
+      allowNull: false,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -96,7 +97,7 @@ const Contact = sequelize.define(
       defaultValue: getRandomColorCode,
     },
     createdBy: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       allowNull: false,
       references: {
         model: "users",
