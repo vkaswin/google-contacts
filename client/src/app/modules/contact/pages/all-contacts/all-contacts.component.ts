@@ -9,7 +9,7 @@ import { ContactService } from "../../services/contact.service";
   selector: "app-contact-list-page",
   standalone: true,
   imports: [CommonModule, ContactListComponent, ContactHeaderComponent],
-  templateUrl: "./contact-list.component.html",
+  templateUrl: "./all-contacts.component.html",
   styles: [],
 })
 export class ContactListPageComponent implements OnInit {

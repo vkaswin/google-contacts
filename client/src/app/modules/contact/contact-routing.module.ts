@@ -11,7 +11,7 @@ export const ContactRoutes: Routes = [
       {
         path: "list",
         loadComponent: async () => {
-          let c = await import("./pages/contact-list/contact-list.component");
+          let c = await import("./pages/all-contacts/all-contacts.component");
           return c.ContactListPageComponent;
         },
       },
