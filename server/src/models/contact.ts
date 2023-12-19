@@ -30,7 +30,10 @@ const Contact = sequelize.define(
           args: [3],
           msg: "Last name should contain atleast three characters",
         },
-        isAlpha: { msg: "Last name should contains characters only" },
+        is: {
+          args: /^[a-zA-Z\s]*$/,
+          msg: "Last name should contains characters only",
+        },
       },
     },
     name: {
@@ -50,7 +53,7 @@ const Contact = sequelize.define(
           msg: "Nick name should contain atleast three characters",
         },
         is: {
-          args: /[a-zA-Z\s]+/,
+          args: /^[a-zA-Z\s]*$/,
           msg: "Nick name should contain characters only",
         },
       },
@@ -80,7 +83,7 @@ const Contact = sequelize.define(
       allowNull: true,
       validate: {
         is: {
-          args: /[a-zA-Z\s]+/,
+          args: /^[a-zA-Z\s]*$/,
           msg: "Department should contain characters only",
         },
       },
@@ -107,7 +110,7 @@ const Contact = sequelize.define(
       allowNull: true,
       validate: {
         is: {
-          args: /[a-zA-Z\s]+/,
+          args: /^[a-zA-Z\s]*$/,
           msg: "Country should contain characters only",
         },
       },
@@ -125,7 +128,7 @@ const Contact = sequelize.define(
       allowNull: true,
       validate: {
         is: {
-          args: /[a-zA-Z\s]+/,
+          args: /^[a-zA-Z\s]*$/,
           msg: "State should contain characters only",
         },
       },
@@ -135,7 +138,7 @@ const Contact = sequelize.define(
       allowNull: true,
       validate: {
         is: {
-          args: /[a-zA-Z\s]+/,
+          args: /^[a-zA-Z\s]*$/,
           msg: "City should contain characters only",
         },
       },
@@ -193,6 +196,11 @@ const Contact = sequelize.define(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     },
   },
   { timestamps: true, tableName: "contacts" }

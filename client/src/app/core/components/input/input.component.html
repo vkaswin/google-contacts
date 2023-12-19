@@ -1,4 +1,4 @@
-<div class="group relative">
+<div class="group relative" *ngIf="!readOnly">
   <label
     [htmlFor]="name"
     class="absolute left-4 top-1/2 -translate-y-1/2 px-1 text-gray group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:bg-white group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:top-0 group-[&:has(input:focus,input:not(:placeholder-shown))]:text-blue group-[&:has(input[aria-invalid='true'])]:text-red-600 group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:text-sm transition-all duration-200 cursor-text"
@@ -21,4 +21,9 @@
       >{{ errorMessage[errorType] }}
     </span>
   </div>
+</div>
+
+<div class="relative flex flex-col gap-1" *ngIf="readOnly">
+  <label class="text-[#202124]">{{ label }}</label>
+  <span class="text-[#49474B]">{{ control.value }}</span>
 </div>

@@ -1,8 +1,16 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { CheckBoxComponent } from "@/app/shared/components/check-box/check-box.component";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { CheckBoxComponent } from "@/app/core/components/check-box/check-box.component";
 import { IContact } from "@/app/modules/contact/types/contact";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
 
 @Component({
   selector: "app-contact-list",
@@ -56,5 +64,9 @@ export class ContactListComponent {
   handleRecover(event: MouseEvent, contactId: number) {
     event.stopPropagation();
     this.onRecover.emit(contactId);
+  }
+
+  formatTime(date: string) {
+    return dayjs.tz(new Date(date), "Asia/Kolkata").format("MMM D");
   }
 }

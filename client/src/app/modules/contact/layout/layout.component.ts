@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { HeaderComponent } from "../components/header/header.component";
 import { SidebarComponent } from "../components/sidebar/sidebar.component";
@@ -12,7 +12,7 @@ import { ContactService } from "../services/contact.service";
   templateUrl: "./layout.component.html",
 })
 export class LayoutComponent {
-  constructor(private contactService: ContactService) {}
+  contactService = inject(ContactService);
 
   get isExpanded() {
     return this.contactService.isExpanded;

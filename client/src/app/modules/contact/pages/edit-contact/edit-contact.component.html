@@ -1,1 +1,6 @@
-<app-contact-form />
+<app-contact-form
+  [isReadOnly]="false"
+  [contactDetail]="contactDetail"
+  (onClose)="handleCloseForm()"
+  (onSubmit)="handleFormSubmit($event)"
+/>

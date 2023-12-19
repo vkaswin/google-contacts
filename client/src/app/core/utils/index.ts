@@ -37,3 +37,15 @@ export const debounce = <T>(
     }, delay);
   };
 };
+
+export const isEmpty = (obj: Object) => {
+  let flag = true;
+
+  for (let key in obj) {
+    if (!obj.hasOwnProperty(key)) continue;
+    flag = false;
+    break;
+  }
+
+  return flag;
+};

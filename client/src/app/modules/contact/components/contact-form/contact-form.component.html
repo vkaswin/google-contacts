@@ -6,7 +6,7 @@
       <div class="self-start mt-4">
         <i
           class="icon-close text-dark-gray text-2xl cursor-pointer"
-          (click)="handleCloseForm()"
+          (click)="onClose.emit()"
         ></i>
       </div>
       <div
@@ -29,7 +29,7 @@
         </button>
       </div>
     </div>
-    <div class="self-end justify-start w-[150px] pb-6">
+    <div class="self-end justify-start w-[150px] pb-6" *ngIf="!isReadOnly">
       <button
         class="bg-blue text-white px-5 py-2 text-sm font-medium rounded-full"
         (click)="handleSaveFrom()"
@@ -49,6 +49,7 @@
         name="firstName"
         [control]="firstName"
         [hasError]="isSubmitted && firstName.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           required: 'Please enter first name',
           minlength: 'First name should contain atleast 3 characters',
@@ -60,6 +61,7 @@
         name="lastName"
         [control]="lastName"
         [hasError]="isSubmitted && lastName.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           minlength: 'First name should contain atleast 3 characters',
           pattern: 'Last name should contain alphapets only'
@@ -71,6 +73,7 @@
         name="nickName"
         [control]="nickName"
         [hasError]="isSubmitted && nickName.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           minlength: 'Nick name should contain atleast 3 characters',
           pattern: 'Nick name should contain alphapets only'
@@ -82,13 +85,24 @@
   <div class="flex items-start gap-5 mt-5">
     <i class="icon-office-building-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Company" name="company" [control]="company" />
-      <app-input label="Job Title" name="jobTitle" [control]="jobTitle" />
+      <app-input
+        label="Company"
+        name="company"
+        [control]="company"
+        [readOnly]="isReadOnly"
+      />
+      <app-input
+        label="Job Title"
+        name="jobTitle"
+        [control]="jobTitle"
+        [readOnly]="isReadOnly"
+      />
       <app-input
         *ngIf="isExpanded"
         label="Department"
         name="department"
         [control]="department"
+        [readOnly]="isReadOnly"
       />
     </div>
   </div>
@@ -101,7 +115,9 @@
         name="email"
         [control]="email"
         [hasError]="isSubmitted && email.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
+          required: 'Please enter email',
           email: 'Invalid email'
         }"
       />
@@ -116,7 +132,11 @@
         name="phone"
         [control]="phone"
         [hasError]="isSubmitted && phone.errors !== null"
-        [errorMessage]="{ pattern: 'Invalid phone number' }"
+        [readOnly]="isReadOnly"
+        [errorMessage]="{
+          required: 'Please enter phone number',
+          pattern: 'Invalid phone number'
+        }"
       />
     </div>
   </div>
@@ -124,23 +144,26 @@
   <div *ngIf="isExpanded" class="flex items-start gap-5 mt-5">
     <i class="icon-map-marker-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Country" name="country" />
+      <app-input label="Country" name="country" [readOnly]="isReadOnly" />
       <app-input
         label="Street address"
         name="addressLine1"
         [control]="addressLine1"
+        [readOnly]="isReadOnly"
       />
       <app-input
         label="Street address line 2"
         name="addressLine2"
         [control]="addressLine2"
+        [readOnly]="isReadOnly"
       />
-      <app-input label="State" name="state" />
-      <app-input label="City" name="city" />
+      <app-input label="State" name="state" [readOnly]="isReadOnly" />
+      <app-input label="City" name="city" [readOnly]="isReadOnly" />
       <app-input
         label="Pincode"
         name="pincode"
         [hasError]="isSubmitted && pincode.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           pattern: 'Invalid pincode'
         }"
@@ -156,6 +179,7 @@
         name="birthday"
         [control]="birthday"
         [hasError]="isSubmitted && birthday.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           pattern: 'Invalid birthday date'
         }"
@@ -166,7 +190,12 @@
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-calendar-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Event" name="event" [control]="event" />
+      <app-input
+        label="Event"
+        name="event"
+        [control]="event"
+        [readOnly]="isReadOnly"
+      />
     </div>
   </div>
 
@@ -178,6 +207,7 @@
         name="website"
         [control]="website"
         [hasError]="isSubmitted && website.errors !== null"
+        [readOnly]="isReadOnly"
         [errorMessage]="{
           pattern: 'Invalid website url'
         }"
@@ -192,6 +222,7 @@
         label="Related people"
         name="relatedPeople"
         [control]="relatedPeople"
+        [readOnly]="isReadOnly"
       />
     </div>
   </div>
@@ -199,14 +230,24 @@
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-message-text-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Chat" name="chat" [control]="chat" />
+      <app-input
+        label="Chat"
+        name="chat"
+        [control]="chat"
+        [readOnly]="isReadOnly"
+      />
     </div>
   </div>
 
   <div class="flex items-center gap-5 mt-5">
     <i class="icon-note-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Notes" name="notes" [control]="notes" />
+      <app-input
+        label="Notes"
+        name="notes"
+        [control]="notes"
+        [readOnly]="isReadOnly"
+      />
     </div>
   </div>
   <button

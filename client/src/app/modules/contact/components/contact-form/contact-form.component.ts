@@ -1,98 +1,85 @@
-import { Component, OnInit } from "@angular/core";
-import { CommonModule, Location } from "@angular/common";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  inject,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   FormBuilder,
   Validators,
   ReactiveFormsModule,
-  FormGroup,
   FormControl,
 } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { InputComponent } from "@/app/shared/components/input/input.component";
-import { ContactService } from "../../services/contact.service";
+import { InputComponent } from "@/app/core/components/input/input.component";
 import { IContactDetail } from "../../types/contact";
+import { isEmpty } from "@/app/core/utils";
 
 @Component({
   selector: "app-contact-form",
   standalone: true,
   imports: [CommonModule, InputComponent, ReactiveFormsModule],
-  providers: [ContactService],
   templateUrl: "./contact-form.component.html",
   styles: [],
 })
-export class ContactFormComponent implements OnInit {
-  form: FormGroup;
+export class ContactFormComponent implements OnChanges {
+  @Input() isReadOnly = false;
+  @Input() contactDetail = {} as IContactDetail;
+
+  @Output() onSubmit = new EventEmitter<IContactDetail>();
+  @Output() onClose = new EventEmitter();
+
   isExpanded = false;
   isSubmitted = false;
-  isReadOnly = false;
-  contactDetail = {} as IContactDetail;
-  isLoading = true;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private location: Location,
-    private contactService: ContactService,
-    private route: ActivatedRoute
-  ) {
-    this.form = fb.group({
-      firstName: fb.control(null, [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.pattern(/^[a-zA-Z]*$/),
-      ]),
-      lastName: fb.control(null, [
-        Validators.minLength(3),
-        Validators.pattern(/^[a-zA-Z]*$/),
-      ]),
-      nickName: fb.control(null, [
-        Validators.minLength(3),
-        Validators.pattern(/^[a-zA-Z]*$/),
-      ]),
-      company: fb.control(null),
-      jobTitle: fb.control(null),
-      department: fb.control(null),
-      email: fb.control(null, [Validators.email]),
-      phone: fb.control(null, [
-        Validators.pattern(
-          /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9][02-9])\s*\)|([2-9][02-9]))\s*(?:[.-]\s*)?)?([2-9][0-9]{2})\s*(?:[.-]\s*)?([0-9]{4})      /
-        ),
-      ]),
-      country: fb.control(null),
-      addressLine1: fb.control(null),
-      addressLine2: fb.control(null),
-      state: fb.control(null),
-      city: fb.control(null),
-      pincode: fb.control(null, [Validators.pattern(/^\d{6}$/)]),
-      birthday: fb.control(null, [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-      event: fb.control(null),
-      website: fb.control(null, [
-        Validators.pattern(
-          /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-        ),
-      ]),
-      relatedPeople: fb.control(null),
-      chat: fb.control(null),
-      notes: fb.control(null),
-    });
-  }
+  router = inject(FormBuilder);
+  fb = inject(FormBuilder);
 
-  ngOnInit(): void {
-    this.route.params.subscribe(({ contactId }) => {
-      this.getContactDetail(contactId);
-    });
-  }
-
-  getContactDetail(contactId: string) {
-    let url = this.router.url;
-    this.isReadOnly = url.endsWith("view");
-    this.contactService.getContactById(contactId).subscribe((res) => {
-      console.log(res);
-      this.isLoading = false;
-      if (url.endsWith("edit")) {
-      }
-    });
-  }
+  form = this.fb.group({
+    firstName: this.fb.control("", [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z]*$/),
+    ]),
+    lastName: this.fb.control("", [
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z]*$/),
+    ]),
+    nickName: this.fb.control("", [
+      Validators.minLength(3),
+      Validators.pattern(/^[a-zA-Z]*$/),
+    ]),
+    company: this.fb.control(""),
+    jobTitle: this.fb.control(""),
+    department: this.fb.control(""),
+    email: this.fb.control("", [Validators.required, Validators.email]),
+    phone: this.fb.control("", [
+      Validators.required,
+      Validators.pattern(
+        /^(\+?[0-9]{1,4}[\s\-]?)?(\(?[0-9]{3}\)?|[0-9]{3})[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$/
+      ),
+    ]),
+    country: this.fb.control(""),
+    addressLine1: this.fb.control(""),
+    addressLine2: this.fb.control(""),
+    state: this.fb.control(""),
+    city: this.fb.control(""),
+    pincode: this.fb.control("", [Validators.pattern(/^\d{6}$/)]),
+    birthday: this.fb.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
+    event: this.fb.control(""),
+    website: this.fb.control("", [
+      Validators.pattern(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+      ),
+    ]),
+    relatedPeople: this.fb.control(""),
+    chat: this.fb.control(""),
+    notes: this.fb.control(""),
+  });
 
   get firstName() {
     return this.form.controls["firstName"] as FormControl;
@@ -169,6 +156,39 @@ export class ContactFormComponent implements OnInit {
   get notes() {
     return this.form.controls["notes"] as FormControl;
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["contactDetail"]) {
+      this.contactDetail = changes["contactDetail"]
+        .currentValue as IContactDetail;
+
+      if (!isEmpty(this.contactDetail)) {
+        this.form.setValue({
+          firstName: this.contactDetail.firstName,
+          lastName: this.contactDetail.lastName,
+          nickName: this.contactDetail.nickName,
+          company: this.contactDetail.company,
+          jobTitle: this.contactDetail.jobTitle,
+          department: this.contactDetail.department,
+          email: this.contactDetail.email,
+          phone: this.contactDetail.phone,
+          country: this.contactDetail.country,
+          addressLine1: this.contactDetail.addressLine1,
+          addressLine2: this.contactDetail.addressLine2,
+          state: this.contactDetail.state,
+          city: this.contactDetail.city,
+          pincode: this.contactDetail.pincode,
+          birthday: this.contactDetail.birthday,
+          event: this.contactDetail.event,
+          website: this.contactDetail.website,
+          relatedPeople: this.contactDetail.relatedPeople,
+          chat: this.contactDetail.chat,
+          notes: this.contactDetail.notes,
+        });
+      }
+    }
+  }
+
   handleExpand() {
     this.isExpanded = !this.isExpanded;
   }
@@ -178,11 +198,6 @@ export class ContactFormComponent implements OnInit {
 
     if (!this.form.valid) return;
 
-    console.log(this.form.value);
-    this.handleCloseForm();
-  }
-
-  handleCloseForm() {
-    this.location.back();
+    this.onSubmit.emit(this.form.value as IContactDetail);
   }
 }

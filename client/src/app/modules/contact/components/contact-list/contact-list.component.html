@@ -15,6 +15,14 @@
       >
         <span>{{ contact.name.charAt(0) | uppercase }}</span>
       </div>
+      <div class="hidden group-hover:flex relative text-[#A3A3A3]">
+        <i
+          class="icon-dots-vertical cursor-pointer absolute -left-[14px] top-[5px] text-xl"
+        ></i>
+        <i
+          class="icon-dots-vertical cursor-pointer absolute -left-[6px] top-[5px] text-xl"
+        ></i>
+      </div>
       <app-check-box
         class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
         [checked]="selectedContactIds.has(contact.id)"
@@ -37,7 +45,7 @@
       </ng-container>
     </span>
     <span *ngIf="isTrash">
-      {{ contact.createdAt }}
+      {{ formatTime(contact.updatedAt) }}
     </span>
   </div>
   <div class="pr-3">

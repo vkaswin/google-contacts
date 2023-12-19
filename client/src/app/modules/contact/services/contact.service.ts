@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { IContact, ILabel } from "../types/contact";
+import { IContact, IContactDetail, ILabel } from "../types/contact";
 import { CONTACT_URL } from "@/app/core/constants/apiEndPoints";
 
 @Injectable({
@@ -14,34 +14,66 @@ export class ContactService {
     { id: 2, title: "Office" },
   ];
 
-  constructor(private http: HttpClient) {}
+  http = inject(HttpClient);
 
   setIsExpanded(value: boolean) {
     this.isExpanded = value;
   }
 
   getContactById(contactId: string) {
-    return this.http.get<{ message: string; data: { contact: IContact } }>(
-      `${CONTACT_URL}/${contactId}/detail`,
+    return this.http.get<{
+      message: string;
+      data: { contact: IContactDetail };
+    }>(`${CONTACT_URL}/${contactId}/detail`, {});
+  }
+
+  getAllContacts(search: string | null) {
+    return this.http.get<{ message: string; data: { contacts: IContact[] } }>(
+      `${CONTACT_URL}/all`,
+      { params: search ? { q: search } : undefined }
+    );
+  }
+
+  updateContactById(contactId: string, data: Partial<IContactDetail>) {
+    return this.http.put(`${CONTACT_URL}/${contactId}/update`, data);
+  }
+
+  removeContactById(contactId: number) {
+    return this.http.delete<{ message: string }>(
+      `${CONTACT_URL}/${contactId}/remove`
+    );
+  }
+
+  addToFavourite(contactId: number) {
+    return this.http.put<{ message: string }>(
+      `${CONTACT_URL}/${contactId}/favourite`,
       {}
     );
   }
 
-  getAllContacts() {
-    return this.http.get<{ message: string; data: { contacts: IContact[] } }>(
-      `${CONTACT_URL}/all`
+  removeFromFavourite(contactId: number) {
+    return this.http.delete<{ message: string }>(
+      `${CONTACT_URL}/${contactId}/favourite`
     );
   }
 
-  updateContactById(contactId: string, data: Partial<IContact>) {
-    return this.http.put(`${CONTACT_URL}/${contactId}/update`, data);
+  createContact(data: Partial<IContactDetail>) {
+    return this.http.post<{
+      message: string;
+      data: { contact: Partial<IContactDetail> };
+    }>(`${CONTACT_URL}/create`, data);
   }
 
-  removeContactById(contactId: string) {
-    return this.http.delete(`${CONTACT_URL}/${contactId}/remove`);
+  recoverContact(contactId: number) {
+    return this.http.put<{ message: string }>(
+      `${CONTACT_URL}/${contactId}/recover`,
+      {}
+    );
   }
 
-  createContact(data: Partial<IContact>) {
-    return this.http.post(`${CONTACT_URL}/create`, data);
+  getAllTrash() {
+    return this.http.get<{ message: string; data: { contacts: IContact[] } }>(
+      `${CONTACT_URL}/trash`
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive, Router } from "@angular/router";
 import { ILabel } from "../../types/contact";
@@ -13,7 +13,7 @@ import { ILabel } from "../../types/contact";
 export class SidebarComponent {
   @Input() labels: ILabel[] = [];
 
-  constructor(private router: Router) {}
+  router = inject(Router);
 
   handleTrackLabel(index: number, label: ILabel) {
     return label.id;

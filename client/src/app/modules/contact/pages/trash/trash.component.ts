@@ -1,8 +1,9 @@
-import { Component } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ContactHeaderComponent } from "../../components/contact-header/contact-header.component";
 import { ContactListComponent } from "../../components/contact-list/contact-list.component";
 import { IContact } from "../../types/contact";
+import { ContactService } from "../../services/contact.service";
 
 @Component({
   selector: "app-trash",
@@ -11,13 +12,30 @@ import { IContact } from "../../types/contact";
   templateUrl: "./trash.component.html",
   styles: [],
 })
-export class TrashComponent {
+export class TrashComponent implements OnInit {
   contactsList: IContact[] = [];
 
   selectedContactIds = new Set<number>();
 
+  contactService = inject(ContactService);
+
+  ngOnInit(): void {
+    this.getAllContacts();
+  }
+
+  getAllContacts() {
+    this.contactService.getAllTrash().subscribe(({ data: { contacts } }) => {
+      this.contactsList = contacts;
+    });
+  }
+
   handleRecover(contactId: number) {
-    console.log(contactId, "recover");
+    this.contactService.recoverContact(contactId).subscribe(({ message }) => {
+      console.log(message);
+      let index = this.contactsList.findIndex(({ id }) => contactId === id);
+      if (index === -1) return;
+      this.contactsList.splice(index, 1);
+    });
   }
 
   handleEmptyTrash() {

@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { ContactListComponent } from "../../components/contact-list/contact-list.component";
 import { ContactHeaderComponent } from "../../components/contact-header/contact-header.component";
 import { IContact } from "../../types/contact";
 import { ContactService } from "../../services/contact.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-contact-list-page",
@@ -17,20 +18,40 @@ export class ContactListPageComponent implements OnInit {
 
   selectedContactIds = new Set<number>();
 
-  constructor(private contactService: ContactService) {}
+  contactService = inject(ContactService);
+
+  activatedRoute = inject(ActivatedRoute);
 
   get favouritesList() {
     return this.contactsList.filter(({ isFavourite }) => isFavourite);
   }
 
   ngOnInit(): void {
-    this.contactService.getAllContacts().subscribe(({ data: { contacts } }) => {
-      this.contactsList = contacts;
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      let q = params.get("q");
+      this.getAllContacts(q);
     });
   }
 
+  getAllContacts(search: string | null) {
+    this.contactService
+      .getAllContacts(search)
+      .subscribe(({ data: { contacts } }) => {
+        this.contactsList = contacts;
+      });
+  }
+
   handleDelete(contactId: number) {
-    console.log(contactId, "delete");
+    if (!window.confirm("Are you sure to delete this contact?")) return;
+
+    this.contactService
+      .removeContactById(contactId)
+      .subscribe(({ message }) => {
+        console.log(message);
+        let index = this.contactsList.findIndex(({ id }) => id === contactId);
+        if (index === -1) return;
+        this.contactsList.splice(index, 1);
+      });
   }
 
   handleFavourite({
@@ -40,7 +61,24 @@ export class ContactListPageComponent implements OnInit {
     contactId: number;
     isFavourite: boolean;
   }) {
-    console.log(contactId, isFavourite, "favourite");
+    console.log(isFavourite, isFavourite);
+    if (isFavourite) {
+      this.contactService.addToFavourite(contactId).subscribe(({ message }) => {
+        console.log(message);
+        let contact = this.contactsList.find(({ id }) => id === contactId);
+        if (!contact) return;
+        contact.isFavourite = isFavourite;
+      });
+    } else {
+      this.contactService
+        .removeFromFavourite(contactId)
+        .subscribe(({ message }) => {
+          console.log(message);
+          let contact = this.contactsList.find(({ id }) => id === contactId);
+          if (!contact) return;
+          contact.isFavourite = isFavourite;
+        });
+    }
   }
 
   handleChange({
