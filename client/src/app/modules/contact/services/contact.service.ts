@@ -38,20 +38,20 @@ export class ContactService {
     return this.http.put(`${CONTACT_URL}/${contactId}/update`, data);
   }
 
-  removeContactById(contactId: number) {
-    return this.http.delete<{ message: string }>(
-      `${CONTACT_URL}/${contactId}/remove`
-    );
+  removeContacts(contactIds: string[]) {
+    return this.http.delete<{ message: string }>(`${CONTACT_URL}/remove`, {
+      body: contactIds,
+    });
   }
 
-  addToFavourite(contactId: number) {
+  addToFavourite(contactId: string) {
     return this.http.put<{ message: string }>(
       `${CONTACT_URL}/${contactId}/favourite`,
       {}
     );
   }
 
-  removeFromFavourite(contactId: number) {
+  removeFromFavourite(contactId: string) {
     return this.http.delete<{ message: string }>(
       `${CONTACT_URL}/${contactId}/favourite`
     );
@@ -64,7 +64,7 @@ export class ContactService {
     }>(`${CONTACT_URL}/create`, data);
   }
 
-  recoverContact(contactId: number) {
+  recoverContact(contactId: string) {
     return this.http.put<{ message: string }>(
       `${CONTACT_URL}/${contactId}/recover`,
       {}
@@ -75,5 +75,11 @@ export class ContactService {
     return this.http.get<{ message: string; data: { contacts: IContact[] } }>(
       `${CONTACT_URL}/trash`
     );
+  }
+
+  clearTrash(contactIds?: string[]) {
+    return this.http.delete<{ message: string }>(`${CONTACT_URL}/trash`, {
+      body: contactIds,
+    });
   }
 }

@@ -1,8 +1,9 @@
 import { Component, inject } from "@angular/core";
-import { CommonModule, Location } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ContactFormComponent } from "../../components/contact-form/contact-form.component";
 import { ContactService } from "../../services/contact.service";
 import { IContactDetail } from "../../types/contact";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-add-contact",
@@ -12,9 +13,9 @@ import { IContactDetail } from "../../types/contact";
   styles: [],
 })
 export class AddContactComponent {
-  location = inject(Location);
-
   contactService = inject(ContactService);
+
+  router = inject(Router);
 
   handleFormSubmit(contactDetail: any) {
     let body: Partial<IContactDetail> = {};
@@ -32,6 +33,6 @@ export class AddContactComponent {
   }
 
   handleCloseForm() {
-    this.location.back();
+    this.router.navigateByUrl("/contact/list");
   }
 }

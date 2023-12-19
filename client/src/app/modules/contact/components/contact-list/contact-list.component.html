@@ -1,8 +1,8 @@
 <div
   class="relative group grid grid-cols-contact items-center text-sm py-2 [&:is([aria-selected='true'])]:bg-mild-gray [&:is([aria-selected='false'])]:hover:bg-dark-silver transition-colors duration-200 cursor-pointer before:hidden before:focus-within:block before:content-[''] before:absolute before:w-1 before:rounded-tr-md before:rounded-br-md before:bg-blue before:h-full"
   *ngFor="let contact of contacts; trackBy: handleTrackContact"
-  [routerLink]="['/contact', contact.id, 'view']"
-  [attr.aria-selected]="selectedContactIds.has(contact.id)"
+  [routerLink]="['/contact', contact._id, 'view']"
+  [attr.aria-selected]="selectedContactIds.has(contact._id)"
 >
   <div class="relative flex items-center gap-5 px-3 h-full">
     <div
@@ -25,8 +25,8 @@
       </div>
       <app-check-box
         class="hidden group-hover:flex group-[&:is([aria-selected='true'])]:flex justify-center items-center absolute left-2.5 top-1/2 -translate-y-1/2 w-[20px] h-[20px]"
-        [checked]="selectedContactIds.has(contact.id)"
-        (onChange)="handleCheckBox($event, contact.id)"
+        [checked]="selectedContactIds.has(contact._id)"
+        (onChange)="handleCheckBox($event, contact._id)"
       />
     </div>
     <span class="first-letter:capitalize">{{ contact.name }}</span>
@@ -59,21 +59,21 @@
             'text-light-blue': isFavourite,
             'icon-star-outline': !isFavourite
           }"
-          (click)="handleFavourite($event, contact.id, !isFavourite)"
+          (click)="handleFavourite($event, contact._id, !isFavourite)"
         ></i>
         <i
           class="icon-pencil-outline"
           (click)="$event.stopPropagation()"
-          [routerLink]="['/contact', contact.id, 'edit']"
+          [routerLink]="['/contact', contact._id, 'edit']"
         ></i>
         <i
           class="icon-trash-can-outline"
-          (click)="handleDelete($event, contact.id)"
+          (click)="handleDelete($event, contact._id)"
         ></i>
       </ng-container>
       <ng-container *ngIf="isTrash">
         <button
-          (click)="handleRecover($event, contact.id)"
+          (click)="handleRecover($event, contact._id)"
           class="text-light-blue text-sm font-medium bg-sky-blue px-2 py-1 rounded-sm"
         >
           Recover

@@ -22,7 +22,7 @@ dayjs.extend(relativeTime);
 export class ContactListComponent {
   @Input() contacts: IContact[] = [];
 
-  @Input() selectedContactIds: Set<number> = new Set();
+  @Input() selectedContactIds: Set<string> = new Set();
 
   @Input() isTrash = false;
 
@@ -30,38 +30,38 @@ export class ContactListComponent {
 
   @Output() onChange = new EventEmitter<{
     checked: boolean;
-    contactId: number;
+    contactId: string;
   }>();
 
-  @Output() onDelete = new EventEmitter<number>();
+  @Output() onDelete = new EventEmitter<string>();
 
-  @Output() onRecover = new EventEmitter<number>();
+  @Output() onRecover = new EventEmitter<string>();
 
   @Output() onFavourite = new EventEmitter<{
-    contactId: number;
+    contactId: string;
     isFavourite: boolean;
   }>();
 
-  handleCheckBox(event: Event, contactId: number) {
+  handleCheckBox(event: Event, contactId: string) {
     let { checked } = event.target as HTMLInputElement;
     this.onChange.emit({ checked, contactId });
   }
 
   handleTrackContact(index: number, contact: IContact) {
-    return contact.id;
+    return contact._id;
   }
 
-  handleDelete(event: MouseEvent, contactId: number) {
+  handleDelete(event: MouseEvent, contactId: string) {
     event.stopPropagation();
     this.onDelete.emit(contactId);
   }
 
-  handleFavourite(event: MouseEvent, contactId: number, isFavourite: boolean) {
+  handleFavourite(event: MouseEvent, contactId: string, isFavourite: boolean) {
     event.stopPropagation();
     this.onFavourite.emit({ contactId, isFavourite });
   }
 
-  handleRecover(event: MouseEvent, contactId: number) {
+  handleRecover(event: MouseEvent, contactId: string) {
     event.stopPropagation();
     this.onRecover.emit(contactId);
   }

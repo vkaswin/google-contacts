@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { CommonModule, Location } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { ContactFormComponent } from "../../components/contact-form/contact-form.component";
 import { ContactService } from "../../services/contact.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { IContactDetail } from "../../types/contact";
 
 @Component({
@@ -19,7 +19,7 @@ export class ViewContactComponent implements OnInit {
 
   contactService = inject(ContactService);
 
-  location = inject(Location);
+  router = inject(Router);
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -38,6 +38,6 @@ export class ViewContactComponent implements OnInit {
   }
 
   handleCloseForm() {
-    this.location.back();
+    this.router.navigateByUrl("/contact/list");
   }
 }

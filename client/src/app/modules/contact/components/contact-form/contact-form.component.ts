@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   inject,
@@ -82,79 +81,83 @@ export class ContactFormComponent implements OnChanges {
   });
 
   get firstName() {
-    return this.form.controls["firstName"] as FormControl;
+    return this.form.controls["firstName"];
   }
 
   get lastName() {
-    return this.form.controls["lastName"] as FormControl;
+    return this.form.controls["lastName"];
   }
 
   get nickName() {
-    return this.form.controls["nickName"] as FormControl;
+    return this.form.controls["nickName"];
   }
 
   get company() {
-    return this.form.controls["company"] as FormControl;
+    return this.form.controls["company"];
   }
 
   get jobTitle() {
-    return this.form.controls["jobTitle"] as FormControl;
+    return this.form.controls["jobTitle"];
   }
 
   get department() {
-    return this.form.controls["department"] as FormControl;
+    return this.form.controls["department"];
   }
 
   get email() {
-    return this.form.controls["email"] as FormControl;
+    return this.form.controls["email"];
   }
 
   get phone() {
-    return this.form.controls["phone"] as FormControl;
+    return this.form.controls["phone"];
   }
 
   get addressLine1() {
-    return this.form.controls["addressLine1"] as FormControl;
+    return this.form.controls["addressLine1"];
   }
 
   get addressLine2() {
-    return this.form.controls["addressLine2"] as FormControl;
+    return this.form.controls["addressLine2"];
   }
 
   get state() {
-    return this.form.controls["state"] as FormControl;
+    return this.form.controls["state"];
   }
 
   get city() {
-    return this.form.controls["city"] as FormControl;
+    return this.form.controls["city"];
   }
 
   get pincode() {
-    return this.form.controls["pincode"] as FormControl;
+    return this.form.controls["pincode"];
   }
 
   get birthday() {
-    return this.form.controls["birthday"] as FormControl;
+    return this.form.controls["birthday"];
   }
 
   get event() {
-    return this.form.controls["event"] as FormControl;
+    return this.form.controls["event"];
   }
 
   get website() {
-    return this.form.controls["website"] as FormControl;
+    return this.form.controls["website"];
   }
 
   get relatedPeople() {
-    return this.form.controls["relatedPeople"] as FormControl;
+    return this.form.controls["relatedPeople"];
   }
 
   get chat() {
-    return this.form.controls["chat"] as FormControl;
+    return this.form.controls["chat"];
   }
 
   get notes() {
-    return this.form.controls["notes"] as FormControl;
+    return this.form.controls["notes"];
+  }
+
+  get country() {
+    return this.form.controls["country"];
   }
 
   ngOnChanges(changes: SimpleChanges): void {

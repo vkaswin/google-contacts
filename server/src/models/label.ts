@@ -1,21 +1,13 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../database/config";
+import { Schema, Types } from "mongoose";
 
-const Label = sequelize.define(
-  "Label",
+const Label = new Schema(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false,
-    },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: [true, "Please add label name"],
     },
   },
-  { timestamps: true, tableName: "label" }
+  { timestamps: true }
 );
 
 export default Label;

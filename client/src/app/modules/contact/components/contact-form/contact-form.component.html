@@ -144,7 +144,12 @@
   <div *ngIf="isExpanded" class="flex items-start gap-5 mt-5">
     <i class="icon-map-marker-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
-      <app-input label="Country" name="country" [readOnly]="isReadOnly" />
+      <app-input
+        label="Country"
+        name="country"
+        [control]="country"
+        [readOnly]="isReadOnly"
+      />
       <app-input
         label="Street address"
         name="addressLine1"

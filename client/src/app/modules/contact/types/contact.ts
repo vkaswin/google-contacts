@@ -4,7 +4,7 @@ export type ILabel = {
 };
 
 export type IContact = {
-  id: number;
+  _id: string;
   firstName: string;
   lastName: string;
   name: string;
@@ -19,7 +19,7 @@ export type IContact = {
 };
 
 export type IContactDetail = {
-  id: string;
+  _id: string;
   firstName: string;
   lastName: string;
   nickName: string;

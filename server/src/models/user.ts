@@ -1,73 +1,43 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../database/config";
+import { Schema, model } from "mongoose";
+import { getRandomColorCode } from "../utils";
 
-const User = sequelize.define(
-  "User",
+const UserSchema = new Schema(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: true,
-    },
     firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        min: {
-          args: [3],
-          msg: "First name should contain atleast three characters",
-        },
-        max: {
-          args: [20],
-          msg: "First name should not exceed more than 20 characters",
-        },
-        is: {
-          args: /[a-zA-Z\s]+/,
-          msg: "First name should contain characters only",
-        },
-      },
+      type: String,
+      required: [true, "Please add first name"],
     },
     lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        min: {
-          args: [3],
-          msg: "Last name should contain atleast three characters",
-        },
-        max: {
-          args: [20],
-          msg: "Last name should not exceed more than 20 characters",
-        },
-        is: {
-          args: /[a-zA-Z\s]+/,
-          msg: "Last name should contain characters only",
-        },
-      },
-    },
-    name: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        return `${this.dataValues.firstName} ${
-          this.dataValues.lastName || ""
-        }`.trim();
-      },
+      type: String,
+      default: null,
     },
     email: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-      validate: {
-        isEmail: { msg: "Invalid email" },
-      },
+      type: String,
+      required: [true, "Please add email"],
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: [true, "Please add password"],
+    },
+    colorCode: {
+      type: String,
+      default: getRandomColorCode,
     },
   },
-  { timestamps: true, tableName: "users" }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    virtuals: {
+      name: {
+        get() {
+          return `${this.firstName} ${this.lastName || ""}`.trim();
+        },
+      },
+    },
+  }
 );
+
+const User = model("User", UserSchema);
 
 export default User;

@@ -3,7 +3,7 @@ import { verify } from "jsonwebtoken";
 import { asyncHandler } from "../utils";
 
 type User = {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   colorCode: string;

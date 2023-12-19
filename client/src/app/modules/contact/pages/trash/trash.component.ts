@@ -15,7 +15,7 @@ import { ContactService } from "../../services/contact.service";
 export class TrashComponent implements OnInit {
   contactsList: IContact[] = [];
 
-  selectedContactIds = new Set<number>();
+  selectedContactIds = new Set<string>();
 
   contactService = inject(ContactService);
 
@@ -29,17 +29,22 @@ export class TrashComponent implements OnInit {
     });
   }
 
-  handleRecover(contactId: number) {
+  handleRecover(contactId: string) {
     this.contactService.recoverContact(contactId).subscribe(({ message }) => {
       console.log(message);
-      let index = this.contactsList.findIndex(({ id }) => contactId === id);
+      let index = this.contactsList.findIndex(({ _id }) => contactId === _id);
       if (index === -1) return;
       this.contactsList.splice(index, 1);
     });
   }
 
   handleEmptyTrash() {
-    console.log("empty trash");
+    if (!window.confirm("Are you sure to delete contacts in trash?")) return;
+
+    this.contactService.clearTrash().subscribe(({ message }) => {
+      console.log(message);
+      this.contactsList = [];
+    });
   }
 
   handleChange({
@@ -47,7 +52,7 @@ export class TrashComponent implements OnInit {
     contactId,
   }: {
     checked: boolean;
-    contactId: number;
+    contactId: string;
   }) {
     if (checked) this.selectedContactIds.add(contactId);
     else this.selectedContactIds.delete(contactId);
@@ -59,6 +64,12 @@ export class TrashComponent implements OnInit {
 
   handleDeleteAllSelectedContacts() {
     let contactIds = [...this.selectedContactIds];
-    console.log(contactIds);
+    this.contactService.clearTrash(contactIds).subscribe(({ message }) => {
+      console.log(message);
+      this.contactsList = this.contactsList.filter(
+        ({ _id }) => !this.selectedContactIds.has(_id)
+      );
+      this.selectedContactIds = new Set();
+    });
   }
 }

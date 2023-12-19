@@ -16,7 +16,8 @@ router.put("/:contactId/update", ContactController.updateContact);
 router.put("/:contactId/favourite", ContactController.addFavourite);
 router.put("/:contactId/recover", ContactController.recoverContact);
 
-router.delete("/:contactId/remove", ContactController.removeContact);
+router.delete("/remove", ContactController.removeContact);
 router.delete("/:contactId/favourite", ContactController.removeFavourite);
+router.delete("/trash", ContactController.clearTrash);
 
 export default router;
