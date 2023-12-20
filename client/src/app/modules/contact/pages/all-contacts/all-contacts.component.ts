@@ -62,6 +62,7 @@ export class ContactListPageComponent implements OnInit {
       let index = this.allContacts.findIndex(({ _id }) => _id === contactId);
       if (index === -1) return;
       this.allContacts.splice(index, 1);
+      this.contactService.getContactCount();
     });
   }
 
@@ -78,6 +79,7 @@ export class ContactListPageComponent implements OnInit {
         let contact = this.allContacts.find(({ _id }) => _id === contactId);
         if (!contact) return;
         contact.isFavourite = isFavourite;
+        this.contactService.getContactCount();
       });
     } else {
       this.contactService
@@ -87,6 +89,7 @@ export class ContactListPageComponent implements OnInit {
           let contact = this.allContacts.find(({ _id }) => _id === contactId);
           if (!contact) return;
           contact.isFavourite = isFavourite;
+          this.contactService.getContactCount();
         });
     }
   }
@@ -115,6 +118,7 @@ export class ContactListPageComponent implements OnInit {
         ({ _id }) => !this.selectedContactIds.has(_id)
       );
       this.selectedContactIds = new Set();
+      this.contactService.getContactCount();
     });
   }
 

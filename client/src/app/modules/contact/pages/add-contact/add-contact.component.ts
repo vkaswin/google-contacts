@@ -29,6 +29,7 @@ export class AddContactComponent {
       .createContact(body)
       .subscribe(({ data: { contact } }) => {
         this.handleCloseForm();
+        this.contactService.getContactCount();
       });
   }
 

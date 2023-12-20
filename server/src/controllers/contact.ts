@@ -1,33 +1,56 @@
+import { Types } from "mongoose";
 import xlsx from "xlsx";
 import Contact from "../models/contact";
 import { CustomError, asyncHandler } from "../utils";
-import { Types } from "mongoose";
+
+const getContactCount = asyncHandler(async (req, res) => {
+  let count = await Contact.find({
+    createdBy: req.user._id,
+    inTrash: false,
+  }).countDocuments();
+
+  res.status(200).send({ message: "Success", data: { count } });
+});
 
 const getContacts = asyncHandler(async (req, res) => {
   let { q } = req.query;
 
-  let contacts = await Contact.find(
+  let contacts = await Contact.aggregate([
     {
-      createdBy: req.user._id,
-      inTrash: false,
-      ...(q && {
-        $or: [
-          { firstName: { $regex: q, $options: "i" } },
-          { lastName: { $regex: q, $options: "i" } },
-        ],
-      }),
+      $match: {
+        createdBy: new Types.ObjectId(req.user._id),
+        inTrash: false,
+        ...(q && {
+          $or: [
+            { firstName: { $regex: q, $options: "i" } },
+            { lastName: { $regex: q, $options: "i" } },
+          ],
+        }),
+      },
     },
     {
-      firstName: 1,
-      lastName: 1,
-      phone: 1,
-      email: 1,
-      jobTitle: 1,
-      company: 1,
-      colorCode: 1,
-      isFavourite: 1,
-    }
-  ).sort({ firstName: -1, lastName: -1 });
+      $project: {
+        name: {
+          $trim: {
+            input: {
+              $concat: ["$firstName", " ", { $ifNull: ["$lastName", ""] }],
+            },
+          },
+        },
+        phone: "$phone",
+        email: "$email",
+        jobTitle: "$jobTitle",
+        company: "$company",
+        colorCode: "$colorCode",
+        isFavourite: "$isFavourite",
+      },
+    },
+    {
+      $sort: {
+        name: 1,
+      },
+    },
+  ]);
 
   res.status(200).send({ message: "Success", data: { contacts } });
 });
@@ -257,6 +280,7 @@ const ContactController = {
   downloadSampleFile,
   bulkUpload,
   exportContact,
+  getContactCount,
 };
 
 export default ContactController;

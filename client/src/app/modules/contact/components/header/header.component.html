@@ -21,6 +21,7 @@
       <input
         class="w-full bg-light-silver h-search rounded-md px-12 outline-none focus:bg-dark-white focus:shadow-search focus:rounded-br-none focus:rounded-bl-none"
         placeholder="Search"
+        [defaultValue]="search"
         (input)="handleChange($event)"
       />
     </div>

@@ -26,7 +26,7 @@
       <span class="text-sm">Contacts</span>
     </div>
     <div>
-      <span class="text-sm">70</span>
+      <span class="text-sm">{{ count }}</span>
     </div>
   </button>
   <button
@@ -63,23 +63,20 @@
     class="group flex items-center justify-between font-medium py-2 px-5 rounded-r-full [&:not(.active)]:text-dark-gray [&:not(.active)]:hover:bg-light-silver [&:is(.active)]:bg-sky-blue [&:is(.active)]:text-blue transition-colors duration-200"
     [routerLinkActive]="'active'"
     *ngFor="let label of labels; trackBy: handleTrackLabel"
-    [routerLink]="['label', label.id]"
+    [routerLink]="['label', label._id]"
   >
     <div class="flex items-center gap-4">
       <i class="icon-label text-2xl"></i>
-      <span class="text-sm">{{ label.title }}</span>
-    </div>
-    <div class="group-hover:hidden">
-      <span class="text-sm">1</span>
+      <span class="text-sm">{{ label.name }}</span>
     </div>
     <div class="hidden items-center gap-3 group-hover:flex">
       <i
         class="icon-trash-can-outline text-xl"
-        (click)="handleDeleteLabel($event, label.id)"
+        (click)="handleDeleteLabel($event, label._id)"
       ></i>
       <i
         class="icon-pencil-outline text-xl"
-        (click)="handleEditLabel($event, label.id)"
+        (click)="handleEditLabel($event, label._id)"
       ></i>
     </div>
   </button>

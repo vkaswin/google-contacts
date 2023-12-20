@@ -55,7 +55,7 @@ export class ContactFormComponent implements OnChanges {
     company: this.fb.control(""),
     jobTitle: this.fb.control(""),
     department: this.fb.control(""),
-    email: this.fb.control("", [Validators.required, Validators.email]),
+    email: this.fb.control("", [Validators.email]),
     phone: this.fb.control("", [
       Validators.required,
       Validators.pattern(

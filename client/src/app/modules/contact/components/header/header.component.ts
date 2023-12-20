@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterLink, Router } from "@angular/router";
+import { RouterLink, Router, ActivatedRoute } from "@angular/router";
 import { debounce } from "@/app/core/utils";
 import { AuthService } from "@/app/modules/auth/services/auth.service";
 
@@ -16,10 +16,16 @@ export class HeaderComponent {
 
   router = inject(Router);
 
+  activatedRoute = inject(ActivatedRoute);
+
   authService = inject(AuthService);
 
   handleClick() {
     this.onToggleMenu.emit();
+  }
+
+  get search() {
+    return this.activatedRoute.snapshot.queryParams["q"] || "";
   }
 
   get initial() {

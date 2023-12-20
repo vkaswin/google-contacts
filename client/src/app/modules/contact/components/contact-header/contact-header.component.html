@@ -34,15 +34,15 @@
       <span *ngIf="isTrash">Date deleted</span>
     </div>
     <div
+      *ngIf="!isTrash"
       class="flex gap-3 items-center justify-end text-dark-gray text-xl font-medium"
     >
-      <ng-container *ngIf="!isTrash">
-        <i class="icon-printer-outline cursor-pointer"></i>
+      <button matToolTip="Export">
         <i
           class="icon-export-variant cursor-pointer"
           (click)="handleExportContact()"
         ></i>
-      </ng-container>
+      </button>
     </div>
   </div>
 </div>

@@ -5,6 +5,9 @@
     class="fixed h-contact bottom-0 left-0 overflow-auto w-sidebar bg-white py-5 aria-[expanded=true]:translate-x-0 aria-[expanded=false]:-translate-x-sidebar transition-transform duration-200"
     [attr.aria-expanded]="this.isExpanded"
     [labels]="this.labels"
+    [count]="count"
+    (onEditLabel)="handleEditLabel($event)"
+    (onDeleteLabel)="handleDeleteLabel($event)"
   />
   <div
     class="aria-[expanded=true]:translate-x-sidebar w-full aria-[expanded=true]:w-contact transition-transform duration-200 px-4 pb-4"

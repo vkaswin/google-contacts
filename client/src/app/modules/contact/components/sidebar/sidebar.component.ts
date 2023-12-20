@@ -1,6 +1,7 @@
-import { Component, Input, inject } from "@angular/core";
+import { Component, EventEmitter, Input, inject, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive, Router } from "@angular/router";
+
 import { ILabel } from "../../types/contact";
 
 @Component({
@@ -12,21 +13,24 @@ import { ILabel } from "../../types/contact";
 })
 export class SidebarComponent {
   @Input() labels: ILabel[] = [];
+  @Input() count: number = 0;
+
+  @Output() onDeleteLabel = new EventEmitter<string>();
+  @Output() onEditLabel = new EventEmitter<string>();
 
   router = inject(Router);
 
   handleTrackLabel(index: number, label: ILabel) {
-    return label.id;
+    return label._id;
   }
 
-  handleDeleteLabel(event: MouseEvent, labelId: number) {
+  handleDeleteLabel(event: MouseEvent, labelId: string) {
     event.stopPropagation();
-    console.log("delete label", labelId);
-    this.router.navigateByUrl("/contact/list");
+    this.onDeleteLabel.emit(labelId);
   }
 
-  handleEditLabel(event: MouseEvent, labelId: number) {
+  handleEditLabel(event: MouseEvent, labelId: string) {
     event.stopPropagation();
-    console.log("edit label", labelId);
+    this.onEditLabel.emit(labelId);
   }
 }

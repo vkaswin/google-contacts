@@ -1,6 +1,6 @@
 export type ILabel = {
-  id: number;
-  title: string;
+  _id: string;
+  name: string;
 };
 
 export type IContact = {

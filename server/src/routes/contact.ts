@@ -12,6 +12,7 @@ router.get("/:contactId/detail", ContactController.getContactById);
 router.get("/trash", ContactController.getAllTrash);
 router.get("/sample", ContactController.downloadSampleFile);
 router.get("/export", ContactController.exportContact);
+router.get("/count", ContactController.getContactCount);
 
 router.post("/create", ContactController.createContact);
 router.post(

@@ -9,10 +9,7 @@ import { CONTACT_URL } from "@/app/core/constants/apiEndPoints";
 export class ContactService {
   isExpanded = true;
 
-  labels: ILabel[] = [
-    { id: 1, title: "Home" },
-    { id: 2, title: "Office" },
-  ];
+  totalContacts = 0;
 
   http = inject(HttpClient);
 
@@ -24,7 +21,7 @@ export class ContactService {
     return this.http.get<{
       message: string;
       data: { contact: IContactDetail };
-    }>(`${CONTACT_URL}/${contactId}/detail`, {});
+    }>(`${CONTACT_URL}/${contactId}/detail`);
   }
 
   getAllContacts(search: string | null) {
@@ -93,5 +90,16 @@ export class ContactService {
 
   exportContacts() {
     return this.http.get(`${CONTACT_URL}/export`, { responseType: "blob" });
+  }
+
+  getContactCount() {
+    this.http
+      .get<{
+        message: string;
+        data: { count: number };
+      }>(`${CONTACT_URL}/count`)
+      .subscribe(({ data: { count } }) => {
+        this.totalContacts = count;
+      });
   }
 }

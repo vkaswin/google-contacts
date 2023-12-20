@@ -35,6 +35,7 @@ export class TrashComponent implements OnInit {
       let index = this.contactsList.findIndex(({ _id }) => contactId === _id);
       if (index === -1) return;
       this.contactsList.splice(index, 1);
+      this.contactService.getContactCount();
     });
   }
 
