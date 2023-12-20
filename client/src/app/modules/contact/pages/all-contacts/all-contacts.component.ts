@@ -14,7 +14,7 @@ import { ActivatedRoute } from "@angular/router";
   styles: [],
 })
 export class ContactListPageComponent implements OnInit {
-  contactsList: IContact[] = [];
+  allContacts: IContact[] = [];
 
   selectedContactIds = new Set<string>();
 
@@ -22,8 +22,12 @@ export class ContactListPageComponent implements OnInit {
 
   activatedRoute = inject(ActivatedRoute);
 
-  get favouritesList() {
-    return this.contactsList.filter(({ isFavourite }) => isFavourite);
+  get starredContactList() {
+    return this.allContacts.filter(({ isFavourite }) => isFavourite);
+  }
+
+  get contactList() {
+    return this.allContacts.filter(({ isFavourite }) => !isFavourite);
   }
 
   ngOnInit(): void {
@@ -33,11 +37,20 @@ export class ContactListPageComponent implements OnInit {
     });
   }
 
+  downloadSampleExcelSheet() {
+    this.contactService.downloadSampleFile().subscribe((blob) => {
+      let a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "sample-file";
+      a.click();
+    });
+  }
+
   getAllContacts(search: string | null) {
     this.contactService
       .getAllContacts(search)
       .subscribe(({ data: { contacts } }) => {
-        this.contactsList = contacts;
+        this.allContacts = contacts;
       });
   }
 
@@ -46,9 +59,9 @@ export class ContactListPageComponent implements OnInit {
 
     this.contactService.removeContacts([contactId]).subscribe(({ message }) => {
       console.log(message);
-      let index = this.contactsList.findIndex(({ _id }) => _id === contactId);
+      let index = this.allContacts.findIndex(({ _id }) => _id === contactId);
       if (index === -1) return;
-      this.contactsList.splice(index, 1);
+      this.allContacts.splice(index, 1);
     });
   }
 
@@ -62,7 +75,7 @@ export class ContactListPageComponent implements OnInit {
     if (isFavourite) {
       this.contactService.addToFavourite(contactId).subscribe(({ message }) => {
         console.log(message);
-        let contact = this.contactsList.find(({ _id }) => _id === contactId);
+        let contact = this.allContacts.find(({ _id }) => _id === contactId);
         if (!contact) return;
         contact.isFavourite = isFavourite;
       });
@@ -71,7 +84,7 @@ export class ContactListPageComponent implements OnInit {
         .removeFromFavourite(contactId)
         .subscribe(({ message }) => {
           console.log(message);
-          let contact = this.contactsList.find(({ _id }) => _id === contactId);
+          let contact = this.allContacts.find(({ _id }) => _id === contactId);
           if (!contact) return;
           contact.isFavourite = isFavourite;
         });
@@ -98,10 +111,19 @@ export class ContactListPageComponent implements OnInit {
 
     this.contactService.removeContacts(contactIds).subscribe(({ message }) => {
       console.log(message);
-      this.contactsList = this.contactsList.filter(
+      this.allContacts = this.allContacts.filter(
         ({ _id }) => !this.selectedContactIds.has(_id)
       );
       this.selectedContactIds = new Set();
+    });
+  }
+
+  handleExportContacts() {
+    this.contactService.exportContacts().subscribe((blob) => {
+      let a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "contacts";
+      a.click();
     });
   }
 }

@@ -63,19 +63,7 @@ const ContactSchema = new Schema(
       type: Date,
       default: null,
     },
-    event: {
-      type: String,
-      default: null,
-    },
     website: {
-      type: String,
-      default: null,
-    },
-    relatedPeople: {
-      type: String,
-      default: null,
-    },
-    chat: {
       type: String,
       default: null,
     },
@@ -99,6 +87,7 @@ const ContactSchema = new Schema(
       type: Types.ObjectId,
       ref: "User",
       index: true,
+      required: true,
     },
   },
   {

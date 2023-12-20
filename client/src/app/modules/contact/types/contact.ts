@@ -35,10 +35,7 @@ export type IContactDetail = {
   city: string;
   pincode: string;
   birthday: string;
-  event: string;
   website: string;
-  relatedPeople: string;
-  chat: string;
   notes: string;
   createdAt: string;
   updatedAt: string;

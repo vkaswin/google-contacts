@@ -28,10 +28,10 @@ export class ContactService {
   }
 
   getAllContacts(search: string | null) {
-    return this.http.get<{ message: string; data: { contacts: IContact[] } }>(
-      `${CONTACT_URL}/all`,
-      { params: search ? { q: search } : undefined }
-    );
+    return this.http.get<{
+      message: string;
+      data: { contacts: IContact[]; starredContacts: IContact[] };
+    }>(`${CONTACT_URL}/all`, { params: search ? { q: search } : undefined });
   }
 
   updateContactById(contactId: string, data: Partial<IContactDetail>) {
@@ -81,5 +81,17 @@ export class ContactService {
     return this.http.delete<{ message: string }>(`${CONTACT_URL}/trash`, {
       body: contactIds,
     });
+  }
+
+  downloadSampleFile() {
+    return this.http.get(`${CONTACT_URL}/sample`, { responseType: "blob" });
+  }
+
+  bulkUpload(file: FormData) {
+    return this.http.post<{ message: string }>(`${CONTACT_URL}/upload`, file);
+  }
+
+  exportContacts() {
+    return this.http.get(`${CONTACT_URL}/export`, { responseType: "blob" });
   }
 }

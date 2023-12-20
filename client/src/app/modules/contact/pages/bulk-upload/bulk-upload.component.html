@@ -1,0 +1,9 @@
+<label for="file-upload">bulk-upload works!</label>
+
+<input
+  id="file-upload"
+  type="file"
+  hidden
+  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  (input)="handleFileChange($event)"
+/>

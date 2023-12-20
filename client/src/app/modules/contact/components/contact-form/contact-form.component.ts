@@ -69,14 +69,11 @@ export class ContactFormComponent implements OnChanges {
     city: this.fb.control(""),
     pincode: this.fb.control("", [Validators.pattern(/^\d{6}$/)]),
     birthday: this.fb.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-    event: this.fb.control(""),
     website: this.fb.control("", [
       Validators.pattern(
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
       ),
     ]),
-    relatedPeople: this.fb.control(""),
-    chat: this.fb.control(""),
     notes: this.fb.control(""),
   });
 
@@ -136,20 +133,8 @@ export class ContactFormComponent implements OnChanges {
     return this.form.controls["birthday"];
   }
 
-  get event() {
-    return this.form.controls["event"];
-  }
-
   get website() {
     return this.form.controls["website"];
-  }
-
-  get relatedPeople() {
-    return this.form.controls["relatedPeople"];
-  }
-
-  get chat() {
-    return this.form.controls["chat"];
   }
 
   get notes() {
@@ -182,10 +167,7 @@ export class ContactFormComponent implements OnChanges {
           city: this.contactDetail.city,
           pincode: this.contactDetail.pincode,
           birthday: this.contactDetail.birthday,
-          event: this.contactDetail.event,
           website: this.contactDetail.website,
-          relatedPeople: this.contactDetail.relatedPeople,
-          chat: this.contactDetail.chat,
           notes: this.contactDetail.notes,
         });
       }

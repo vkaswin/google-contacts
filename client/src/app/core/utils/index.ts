@@ -1,17 +1,17 @@
 export const cookie = {
-  set: <T>({
+  set: ({
     name,
     value,
     days,
   }: {
     name: string;
-    value: T;
+    value: string;
     days: number;
   }): void => {
     let expireDate = new Date();
     expireDate.setTime(expireDate.getTime() + days * 24 * 60 * 60 * 1000);
     let expires = "; expires=" + expireDate.toUTCString();
-    document.cookie = name + "=" + JSON.stringify(value) + expires + "; path=/";
+    document.cookie = name + "=" + value + expires + "; path=/";
   },
 
   get: (name: string): string | null => {

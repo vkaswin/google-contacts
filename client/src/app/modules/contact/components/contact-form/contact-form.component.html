@@ -193,18 +193,6 @@
   </div>
 
   <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
-    <i class="icon-calendar-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-full">
-      <app-input
-        label="Event"
-        name="event"
-        [control]="event"
-        [readOnly]="isReadOnly"
-      />
-    </div>
-  </div>
-
-  <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
     <i class="icon-link text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
       <app-input
@@ -216,30 +204,6 @@
         [errorMessage]="{
           pattern: 'Invalid website url'
         }"
-      />
-    </div>
-  </div>
-
-  <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
-    <i class="icon-account-group-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-full">
-      <app-input
-        label="Related people"
-        name="relatedPeople"
-        [control]="relatedPeople"
-        [readOnly]="isReadOnly"
-      />
-    </div>
-  </div>
-
-  <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
-    <i class="icon-message-text-outline text-gray text-2xl"></i>
-    <div class="flex flex-col gap-4 w-full">
-      <app-input
-        label="Chat"
-        name="chat"
-        [control]="chat"
-        [readOnly]="isReadOnly"
       />
     </div>
   </div>

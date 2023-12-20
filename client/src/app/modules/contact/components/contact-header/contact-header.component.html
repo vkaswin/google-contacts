@@ -38,7 +38,10 @@
     >
       <ng-container *ngIf="!isTrash">
         <i class="icon-printer-outline cursor-pointer"></i>
-        <i class="icon-export-variant cursor-pointer"></i>
+        <i
+          class="icon-export-variant cursor-pointer"
+          (click)="handleExportContact()"
+        ></i>
       </ng-container>
     </div>
   </div>

@@ -17,11 +17,17 @@ export class ContactHeaderComponent {
 
   @Output() onDeleteSelectedContacts = new EventEmitter();
 
+  @Output() onExportContact = new EventEmitter();
+
   handleClearAllSelectedContacts() {
     this.onClearSelectedContacts.emit();
   }
 
   handleDeleteAllSelectedContacts() {
     this.onDeleteSelectedContacts.emit();
+  }
+
+  handleExportContact() {
+    this.onExportContact.emit();
   }
 }

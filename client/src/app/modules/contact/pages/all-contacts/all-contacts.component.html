@@ -1,20 +1,23 @@
-<ng-container *ngIf="favouritesList.length !== 0 || contactsList.length !== 0">
+<ng-container
+  *ngIf="starredContactList.length !== 0 || contactList.length !== 0"
+>
   <app-contact-header
     [isTrash]="false"
     [selectedContacts]="selectedContactIds.size"
+    (onExportContact)="handleExportContacts()"
     (onDeleteSelectedContacts)="handleDeleteAllSelectedContacts()"
     (onClearSelectedContacts)="handleClearAllSelectedContacts()"
   />
   <div class="relative">
-    <ng-container *ngIf="favouritesList.length !== 0">
+    <ng-container *ngIf="starredContactList.length !== 0">
       <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
         <span class="text-gray font-medium text-xs capitalize"
-          >STARRED CONTACTS ({{ favouritesList.length }})</span
+          >STARRED CONTACTS ({{ starredContactList.length }})</span
         >
       </div>
       <div class="flex flex-col">
         <app-contact-list
-          [contacts]="favouritesList"
+          [contacts]="starredContactList"
           [isFavourite]="true"
           [selectedContactIds]="selectedContactIds"
           (onDelete)="handleDelete($event)"
@@ -23,19 +26,21 @@
         />
       </div>
     </ng-container>
-    <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
-      <span class="text-gray font-medium text-xs capitalize"
-        >CONTACTS ({{ contactsList.length }})</span
-      >
-    </div>
-    <div class="flex flex-col">
-      <app-contact-list
-        [contacts]="contactsList"
-        [selectedContactIds]="selectedContactIds"
-        (onDelete)="handleDelete($event)"
-        (onFavourite)="handleFavourite($event)"
-        (onChange)="handleChange($event)"
-      />
-    </div>
+    <ng-container *ngIf="contactList.length !== 0">
+      <div class="p-3 sticky top-[50px] left-0 z-10 bg-white">
+        <span class="text-gray font-medium text-xs capitalize"
+          >CONTACTS ({{ contactList.length }})</span
+        >
+      </div>
+      <div class="flex flex-col">
+        <app-contact-list
+          [contacts]="contactList"
+          [selectedContactIds]="selectedContactIds"
+          (onDelete)="handleDelete($event)"
+          (onFavourite)="handleFavourite($event)"
+          (onChange)="handleChange($event)"
+        />
+      </div>
+    </ng-container>
   </div>
 </ng-container>

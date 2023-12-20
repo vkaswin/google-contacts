@@ -3,7 +3,7 @@ import User from "../models/user";
 import { asyncHandler, CustomError, generateJwtToken } from "../utils";
 
 const signUp = asyncHandler(async (req, res) => {
-  let { email, name, password } = req.body;
+  let { email, firstName, lastName, password } = req.body;
 
   let isExist = await User.findOne({ email });
 
@@ -14,14 +14,15 @@ const signUp = asyncHandler(async (req, res) => {
   let hashPassword = await bcrypt.hash(password, salt);
 
   let user = await User.create({
-    name,
+    firstName,
+    lastName,
     email,
     password: hashPassword,
   });
 
   let token = generateJwtToken({
     _id: user._id,
-    // name: user.name,
+    name: user.name,
     email: user.email,
     colorCode: user.colorCode,
   });
@@ -46,7 +47,7 @@ const signIn = asyncHandler(async (req, res) => {
 
   let token = generateJwtToken({
     _id: user._id,
-    // name: user.name,
+    name: user.name,
     email: user.email,
     colorCode: user.colorCode,
   });

@@ -8,10 +8,11 @@ import {
   withInterceptors,
 } from "@angular/common/http";
 import { AuthInterceptor } from "./app/core/interceptor/auth.interceptor";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule, AppRoutingModule, HttpClientModule),
+    importProvidersFrom(BrowserModule, AppRoutingModule, HttpClientModule, BrowserAnimationsModule),
     provideHttpClient(withInterceptors([AuthInterceptor])),
   ],
 }).catch((err) => console.error(err));

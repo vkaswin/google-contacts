@@ -19,7 +19,7 @@ declare global {
 
 const verifyToken = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token = req?.headers?.authorization?.split(`"`)[1];
+    let token = req.headers.authorization;
     if (!token) return res.status(401).send({ message: "Unauthorized" });
     let decoded = await verify(token, process.env.JWT_SECRET as string);
     req.user = decoded as User;
