@@ -1,7 +1,7 @@
-import { Injectable, inject } from "@angular/core";
+import { EventEmitter, Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IContact, IContactDetail, ILabel } from "../types/contact";
-import { CONTACT_URL } from "@/app/core/constants/apiEndPoints";
+import { CONTACT_URL, LABEL_URL } from "@/app/core/constants/apiEndPoints";
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +10,35 @@ export class ContactService {
   isExpanded = true;
 
   totalContacts = 0;
+
+  labels: ILabel[] = [];
+
+  onUpdateLabel = new EventEmitter<{
+    labelId: string;
+    data: Partial<ILabel>;
+  }>();
+
+  onCreateLabel = new EventEmitter<ILabel>();
+
+  onDeleteLabel = new EventEmitter<string>();
+
+  constructor() {
+    this.onCreateLabel.subscribe((data) => {
+      this.labels.push(data);
+    });
+
+    this.onUpdateLabel.subscribe(({ labelId, data }) => {
+      let index = this.labels.findIndex(({ _id }) => _id === labelId);
+      if (index === -1) return;
+      this.labels[index] = { ...this.labels[index], ...data };
+    });
+
+    this.onDeleteLabel.subscribe((labelId) => {
+      let index = this.labels.findIndex(({ _id }) => _id === labelId);
+      if (index === -1) return;
+      this.labels.splice(index, 1);
+    });
+  }
 
   http = inject(HttpClient);
 
@@ -24,11 +53,15 @@ export class ContactService {
     }>(`${CONTACT_URL}/${contactId}/detail`);
   }
 
-  getAllContacts(search: string | null) {
+  getAllContacts(search: string | null, labelId: string | null) {
+    let params: any = {};
+    if (search) params.q = search;
+    if (labelId) params.labelId = labelId;
+
     return this.http.get<{
       message: string;
       data: { contacts: IContact[]; starredContacts: IContact[] };
-    }>(`${CONTACT_URL}/all`, { params: search ? { q: search } : undefined });
+    }>(`${CONTACT_URL}/all`, { params });
   }
 
   updateContactById(contactId: string, data: Partial<IContactDetail>) {
@@ -101,5 +134,40 @@ export class ContactService {
       .subscribe(({ data: { count } }) => {
         this.totalContacts = count;
       });
+  }
+
+  getAllLabels() {
+    this.http
+      .get<{ message: string; data: { labels: ILabel[] } }>(`${LABEL_URL}/all`)
+      .subscribe(({ data: { labels } }) => {
+        this.labels = labels;
+      });
+  }
+
+  createLabel(data: Partial<ILabel>) {
+    return this.http.post<{ message: string; data: { label: ILabel } }>(
+      `${LABEL_URL}/create`,
+      data
+    );
+  }
+
+  updateLabelById(labelId: string, data: Partial<ILabel>) {
+    return this.http.put<{ message: string }>(
+      `${LABEL_URL}/${labelId}/update`,
+      data
+    );
+  }
+
+  removeLabelById(labelId: string) {
+    return this.http.delete<{ message: string }>(
+      `${LABEL_URL}/${labelId}/remove`
+    );
+  }
+
+  updateContactLabel(contactId: string, data: { labels: string[] }) {
+    return this.http.put<{ message: string }>(
+      `${CONTACT_URL}/${contactId}/label`,
+      data
+    );
   }
 }

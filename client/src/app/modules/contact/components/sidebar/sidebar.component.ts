@@ -16,7 +16,8 @@ export class SidebarComponent {
   @Input() count: number = 0;
 
   @Output() onDeleteLabel = new EventEmitter<string>();
-  @Output() onEditLabel = new EventEmitter<string>();
+  @Output() onEditLabel = new EventEmitter<ILabel>();
+  @Output() onAddLabel = new EventEmitter();
 
   router = inject(Router);
 
@@ -29,8 +30,13 @@ export class SidebarComponent {
     this.onDeleteLabel.emit(labelId);
   }
 
-  handleEditLabel(event: MouseEvent, labelId: string) {
+  handleAddLabel(event: MouseEvent) {
     event.stopPropagation();
-    this.onEditLabel.emit(labelId);
+    this.onAddLabel.emit();
+  }
+
+  handleEditLabel(event: MouseEvent, label: ILabel) {
+    event.stopPropagation();
+    this.onEditLabel.emit(label);
   }
 }

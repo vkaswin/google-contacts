@@ -1,1 +1,32 @@
-<p>label-popup works!</p>
+<div class="flex gap-5 flex-col p-8">
+  <div>
+    <b class="text-xl">{{ props.isEdit ? "Edit Label" : "Create Label" }}</b>
+  </div>
+  <div>
+    <app-input
+      label="Label Name"
+      name="name"
+      [control]="name"
+      [hasError]="isSubmitted && name.errors !== null"
+      [errorMessage]="{
+        required: 'Please enter name',
+        minlength: 'Name should contain atleast 3 characters',
+        pattern: 'Name should contain alphapets only'
+      }"
+    />
+  </div>
+  <div class="flex justify-end gap-4">
+    <button
+      class="text-blue text-sm font-medium bg-transparent w-20 h-8 hover:bg-[#DBE7F8] rounded transition-colors"
+      (click)="dialogRef.close()"
+    >
+      Cancel
+    </button>
+    <button
+      class="text-blue text-sm font-medium bg-transparent w-20 h-8 hover:bg-[#DBE7F8] rounded transition-colors"
+      (click)="handleSubmit()"
+    >
+      {{ props.isEdit ? "Save" : "Create" }}
+    </button>
+  </div>
+</div>

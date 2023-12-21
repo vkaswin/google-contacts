@@ -1,6 +1,8 @@
 <app-contact-form
   [isReadOnly]="false"
   [contactDetail]="contactDetail"
+  [labels]="labels"
   (onClose)="handleCloseForm()"
   (onSubmit)="handleFormSubmit($event)"
+  (onApplyLabel)="handleApplyLabel($event)"
 />

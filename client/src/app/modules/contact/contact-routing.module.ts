@@ -16,6 +16,13 @@ export const ContactRoutes: Routes = [
         },
       },
       {
+        path: "label/:labelId",
+        loadComponent: async () => {
+          let c = await import("./pages/all-contacts/all-contacts.component");
+          return c.ContactListPageComponent;
+        },
+      },
+      {
         path: "add",
         loadComponent: async () => {
           let c = await import("./pages/add-contact/add-contact.component");
@@ -48,15 +55,6 @@ export const ContactRoutes: Routes = [
         loadComponent: async () => {
           let c = await import("./pages/trash/trash.component");
           return c.TrashComponent;
-        },
-      },
-      {
-        path: "label/:labelId",
-        loadComponent: async () => {
-          let c = await import(
-            "./pages/contact-by-label/contact-by-label.component"
-          );
-          return c.ContactByLabelComponent;
         },
       },
     ],

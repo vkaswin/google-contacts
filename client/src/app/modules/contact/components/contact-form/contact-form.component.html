@@ -1,6 +1,4 @@
-<div
-  class="sticky top-0 left-0 h-[200px] border-b border-b-gray-300 z-10 bg-white"
->
+<div class="sticky top-0 left-0 h-52 border-b border-b-gray-300 z-10 bg-white">
   <div class="flex justify-between h-full">
     <div class="flex items-center gap-7">
       <div class="self-start mt-4">
@@ -10,29 +8,72 @@
         ></i>
       </div>
       <div
-        class="relative flex self-center w-[164px] h-[164px] bg-[#c2e7ff] rounded-full"
+        class="relative flex justify-center items-center w-32 h-32 bg-[#c2e7ff] rounded-full"
+        [style]="{ backgroundColor: contactDetail.colorCode }"
       >
-        <label
-          for="file-upload"
-          class="absolute z-10 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[36px] h-[36px] cursor-pointer"
-        >
-          <i class="icon-image-plus-outline text-4xl text-dark-gray"></i>
-          <input id="file-upload" type="file" hidden />
-        </label>
+        <span class="text-4xl text-white"
+          >{{
+            contactDetail.firstName &&
+              contactDetail.firstName.charAt(0).toUpperCase()
+          }}{{
+            contactDetail.lastName &&
+              contactDetail.lastName.charAt(0).toUpperCase()
+          }}
+        </span>
       </div>
-      <div class="self-center">
+      <div class="flex gap-3 flex-col self-center">
+        <div class="flex gap-3 flex-nowrap">
+          <button
+            *ngFor="let label of contactDetail.labels"
+            class="text-sm bg-transparent border-1 border-[#c4c7c5] rounded px-3 py-1 hover:bg-[#EDEDED] transition-colors"
+            [routerLink]="['/contact/label', label._id]"
+          >
+            {{ label.name }}
+          </button>
+        </div>
         <button
-          class="flex items-center justify-center gap-1 text-sm border-1 border-gray-500 rounded-md hover:bg-light-gray bg-white w-[85px] transition-colors duration-200"
+          *ngIf="!isReadOnly"
+          [matMenuTriggerFor]="label"
+          class="flex items-center justify-center gap-1 text-sm border-1 border-gray-500 rounded-md hover:bg-light-gray bg-white w-20 transition-colors duration-200"
         >
-          <i class="icon-plus text-lg text-blue"></i>
-          <span class="text-dark-gray font-medium">Label</span>
+          <i class="icon-pencil-outline text-lg text-blue"></i>
+          <span class="text-dark-gray text-sm font-medium">Label</span>
         </button>
+        <mat-menu #label>
+          <div class="max-h-56 overflow-y-auto">
+            <button
+              *ngFor="let label of labels"
+              mat-menu-item
+              (click)="handleClickLabel($event, label._id)"
+            >
+              <div class="flex gap-3 justify-between items-center">
+                <span>{{ label.name }}</span>
+                <i
+                  [class]="[
+                    !labelIds.has(label._id) ? 'hidden' : 'block',
+                    'icon-check',
+                    'text-blue',
+                    'text-xl'
+                  ]"
+                ></i>
+              </div>
+            </button>
+          </div>
+          <div class="flex justify-end border-t-1 border-gray-300 pt-3 pr-3">
+            <button
+              class="text-blue text-sm font-medium bg-transparent w-20 h-8 hover:bg-[#DBE7F8] rounded transition-colors"
+              (click)="handleApplyLabel()"
+            >
+              Apply
+            </button>
+          </div>
+        </mat-menu>
       </div>
     </div>
     <div class="self-end justify-start w-[150px] pb-6" *ngIf="!isReadOnly">
       <button
         class="bg-blue text-white px-5 py-2 text-sm font-medium rounded-full"
-        (click)="handleSaveFrom()"
+        (click)="handleSubmit()"
       >
         Save
       </button>
@@ -40,7 +81,7 @@
   </div>
 </div>
 
-<form class="mt-6 pl-6 w-[50%]" [formGroup]="form">
+<form class="mt-6 pl-6 w-[50%]">
   <div class="flex items-start gap-5">
     <i class="icon-account-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-7 w-full">

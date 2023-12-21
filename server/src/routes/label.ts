@@ -1,7 +1,10 @@
 import { Router } from "express";
 import LabelController from "../controllers/label";
+import verifyToken from "../middlewares/verifyToken";
 
 const router = Router();
+
+router.use(verifyToken);
 
 router.get("/all", LabelController.getAllLabels);
 

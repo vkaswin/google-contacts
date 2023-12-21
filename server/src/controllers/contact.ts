@@ -13,13 +13,16 @@ const getContactCount = asyncHandler(async (req, res) => {
 });
 
 const getContacts = asyncHandler(async (req, res) => {
-  let { q } = req.query;
+  let { q, labelId } = req.query;
 
   let contacts = await Contact.aggregate([
     {
       $match: {
         createdBy: new Types.ObjectId(req.user._id),
         inTrash: false,
+        ...(typeof labelId === "string" && {
+          labels: { $in: [new Types.ObjectId(labelId)] },
+        }),
         ...(q && {
           $or: [
             { firstName: { $regex: q, $options: "i" } },
@@ -30,6 +33,8 @@ const getContacts = asyncHandler(async (req, res) => {
     },
     {
       $project: {
+        firstName: "$firstName",
+        lastName: "$lastName",
         name: {
           $trim: {
             input: {
@@ -118,7 +123,7 @@ const recoverContact = asyncHandler(async (req, res) => {
 const getContactById = asyncHandler(async (req, res) => {
   let { contactId } = req.params;
 
-  let contact = await Contact.findById(contactId);
+  let contact = await Contact.findById(contactId).populate("labels");
 
   if (!contact) {
     throw new CustomError({ message: "Contact not exist", status: 400 });
@@ -266,6 +271,24 @@ const exportContact = asyncHandler(async (req, res) => {
   res.end(buffer);
 });
 
+const updateContactLabel = asyncHandler(async (req, res) => {
+  let { contactId } = req.params;
+
+  let contact = await Contact.findById(contactId);
+
+  if (!contact) {
+    throw new CustomError({ message: "Contact not exist", status: 400 });
+  }
+
+  await Contact.findByIdAndUpdate(contactId, {
+    labels: req.body.labels,
+  });
+
+  res
+    .status(200)
+    .send({ message: "Contact label has been updated successfully" });
+});
+
 const ContactController = {
   getContacts,
   createContact,
@@ -281,6 +304,7 @@ const ContactController = {
   bulkUpload,
   exportContact,
   getContactCount,
+  updateContactLabel,
 };
 
 export default ContactController;

@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { ContactHeaderComponent } from "../../components/contact-header/contact-header.component";
 import { ContactListComponent } from "../../components/contact-list/contact-list.component";
 import { IContact } from "../../types/contact";
@@ -8,7 +9,12 @@ import { ContactService } from "../../services/contact.service";
 @Component({
   selector: "app-trash",
   standalone: true,
-  imports: [CommonModule, ContactListComponent, ContactHeaderComponent],
+  imports: [
+    CommonModule,
+    ContactListComponent,
+    ContactHeaderComponent,
+    MatSnackBarModule,
+  ],
   templateUrl: "./trash.component.html",
   styles: [],
 })
@@ -18,6 +24,8 @@ export class TrashComponent implements OnInit {
   selectedContactIds = new Set<string>();
 
   contactService = inject(ContactService);
+
+  snackBar = inject(MatSnackBar);
 
   ngOnInit(): void {
     this.getAllContacts();
@@ -29,9 +37,13 @@ export class TrashComponent implements OnInit {
     });
   }
 
+  showSnackBar(message: string) {
+    this.snackBar.open(message, "", { duration: 3000 });
+  }
+
   handleRecover(contactId: string) {
     this.contactService.recoverContact(contactId).subscribe(({ message }) => {
-      console.log(message);
+      this.showSnackBar(message);
       let index = this.contactsList.findIndex(({ _id }) => contactId === _id);
       if (index === -1) return;
       this.contactsList.splice(index, 1);
@@ -43,7 +55,7 @@ export class TrashComponent implements OnInit {
     if (!window.confirm("Are you sure to delete contacts in trash?")) return;
 
     this.contactService.clearTrash().subscribe(({ message }) => {
-      console.log(message);
+      this.showSnackBar(message);
       this.contactsList = [];
     });
   }
@@ -66,7 +78,7 @@ export class TrashComponent implements OnInit {
   handleDeleteAllSelectedContacts() {
     let contactIds = [...this.selectedContactIds];
     this.contactService.clearTrash(contactIds).subscribe(({ message }) => {
-      console.log(message);
+      this.showSnackBar(message);
       this.contactsList = this.contactsList.filter(
         ({ _id }) => !this.selectedContactIds.has(_id)
       );

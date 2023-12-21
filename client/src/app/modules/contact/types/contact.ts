@@ -40,4 +40,6 @@ export type IContactDetail = {
   createdAt: string;
   updatedAt: string;
   isFavourite: boolean;
+  colorCode: string;
+  labels: ILabel[];
 };

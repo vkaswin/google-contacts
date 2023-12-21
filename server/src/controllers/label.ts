@@ -1,3 +1,4 @@
+import Contact from "../models/contact";
 import Label from "../models/label";
 import { CustomError, asyncHandler } from "../utils";
 
@@ -28,6 +29,11 @@ const removeLabel = asyncHandler(async (req, res) => {
   }
 
   await Label.findByIdAndDelete(labelId);
+
+  await Contact.updateMany(
+    { createdBy: req.user._id },
+    { $pull: { labels: labelId } }
+  );
 
   res.status(200).send({ message: "Label has been deleted successfully" });
 });

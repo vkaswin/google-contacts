@@ -6,6 +6,7 @@
     [attr.aria-expanded]="this.isExpanded"
     [labels]="this.labels"
     [count]="count"
+    (onAddLabel)="handleAddLabel()"
     (onEditLabel)="handleEditLabel($event)"
     (onDeleteLabel)="handleDeleteLabel($event)"
   />

@@ -89,18 +89,14 @@ const ContactSchema = new Schema(
       index: true,
       required: true,
     },
+    labels: {
+      type: [Types.ObjectId],
+      ref: "Label",
+      default: [],
+    },
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-    virtuals: {
-      name: {
-        get() {
-          return `${this.firstName} ${this.lastName || ""}`.trim();
-        },
-      },
-    },
   }
 );
 

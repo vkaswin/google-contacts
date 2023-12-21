@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
   selector: "app-contact-header",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatTooltipModule],
   templateUrl: "./contact-header.component.html",
   styles: [],
 })

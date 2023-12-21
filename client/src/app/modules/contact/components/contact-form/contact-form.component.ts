@@ -8,73 +8,75 @@ import {
   inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import {
-  FormBuilder,
-  Validators,
-  ReactiveFormsModule,
-  FormControl,
-} from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { FormBuilder, Validators } from "@angular/forms";
+import { MatMenuModule } from "@angular/material/menu";
 import { InputComponent } from "@/app/core/components/input/input.component";
-import { IContactDetail } from "../../types/contact";
+import { IContactDetail, ILabel } from "../../types/contact";
 import { isEmpty } from "@/app/core/utils";
 
 @Component({
   selector: "app-contact-form",
   standalone: true,
-  imports: [CommonModule, InputComponent, ReactiveFormsModule],
+  imports: [CommonModule, InputComponent, RouterModule, MatMenuModule],
   templateUrl: "./contact-form.component.html",
   styles: [],
 })
 export class ContactFormComponent implements OnChanges {
   @Input() isReadOnly = false;
   @Input() contactDetail = {} as IContactDetail;
+  @Input() labels: ILabel[] = [];
 
   @Output() onSubmit = new EventEmitter<IContactDetail>();
   @Output() onClose = new EventEmitter();
+  @Output() onApplyLabel = new EventEmitter();
 
   isExpanded = false;
   isSubmitted = false;
+  labelIds = new Set<string>();
 
   router = inject(FormBuilder);
-  fb = inject(FormBuilder);
+  formBuilder = inject(FormBuilder);
 
-  form = this.fb.group({
-    firstName: this.fb.control("", [
+  form = this.formBuilder.group({
+    firstName: this.formBuilder.control("", [
       Validators.required,
       Validators.minLength(3),
       Validators.pattern(/^[a-zA-Z]*$/),
     ]),
-    lastName: this.fb.control("", [
+    lastName: this.formBuilder.control("", [
       Validators.minLength(3),
       Validators.pattern(/^[a-zA-Z]*$/),
     ]),
-    nickName: this.fb.control("", [
+    nickName: this.formBuilder.control("", [
       Validators.minLength(3),
       Validators.pattern(/^[a-zA-Z]*$/),
     ]),
-    company: this.fb.control(""),
-    jobTitle: this.fb.control(""),
-    department: this.fb.control(""),
-    email: this.fb.control("", [Validators.email]),
-    phone: this.fb.control("", [
+    company: this.formBuilder.control(""),
+    jobTitle: this.formBuilder.control(""),
+    department: this.formBuilder.control(""),
+    email: this.formBuilder.control("", [Validators.email]),
+    phone: this.formBuilder.control("", [
       Validators.required,
       Validators.pattern(
         /^(\+?[0-9]{1,4}[\s\-]?)?(\(?[0-9]{3}\)?|[0-9]{3})[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$/
       ),
     ]),
-    country: this.fb.control(""),
-    addressLine1: this.fb.control(""),
-    addressLine2: this.fb.control(""),
-    state: this.fb.control(""),
-    city: this.fb.control(""),
-    pincode: this.fb.control("", [Validators.pattern(/^\d{6}$/)]),
-    birthday: this.fb.control("", [Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)]),
-    website: this.fb.control("", [
+    country: this.formBuilder.control(""),
+    addressLine1: this.formBuilder.control(""),
+    addressLine2: this.formBuilder.control(""),
+    state: this.formBuilder.control(""),
+    city: this.formBuilder.control(""),
+    pincode: this.formBuilder.control("", [Validators.pattern(/^\d{6}$/)]),
+    birthday: this.formBuilder.control("", [
+      Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
+    ]),
+    website: this.formBuilder.control("", [
       Validators.pattern(
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
       ),
     ]),
-    notes: this.fb.control(""),
+    notes: this.formBuilder.control(""),
   });
 
   get firstName() {
@@ -170,6 +172,10 @@ export class ContactFormComponent implements OnChanges {
           website: this.contactDetail.website,
           notes: this.contactDetail.notes,
         });
+
+        this.labelIds = new Set(
+          this.contactDetail.labels.map(({ _id }) => _id)
+        );
       }
     }
   }
@@ -178,11 +184,22 @@ export class ContactFormComponent implements OnChanges {
     this.isExpanded = !this.isExpanded;
   }
 
-  handleSaveFrom() {
+  handleSubmit() {
     if (!this.isSubmitted) this.isSubmitted = true;
 
     if (!this.form.valid) return;
 
     this.onSubmit.emit(this.form.value as IContactDetail);
+  }
+
+  handleClickLabel(event: MouseEvent, labelId: string) {
+    event.stopPropagation();
+    this.labelIds.has(labelId)
+      ? this.labelIds.delete(labelId)
+      : this.labelIds.add(labelId);
+  }
+
+  handleApplyLabel() {
+    this.onApplyLabel.emit(this.labelIds);
   }
 }

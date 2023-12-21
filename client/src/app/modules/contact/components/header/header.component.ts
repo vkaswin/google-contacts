@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Output, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink, Router, ActivatedRoute } from "@angular/router";
+import { MatMenuModule } from "@angular/material/menu";
 import { debounce } from "@/app/core/utils";
 import { AuthService } from "@/app/modules/auth/services/auth.service";
 
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, MatMenuModule],
   templateUrl: "./header.component.html",
   styles: [],
 })
@@ -39,4 +40,8 @@ export class HeaderComponent {
     let { value } = event.target as HTMLInputElement;
     this.router.navigate([], { queryParams: { q: value || null } });
   }, 500);
+
+  handleLogOut() {
+    this.authService.onLogout();
+  }
 }

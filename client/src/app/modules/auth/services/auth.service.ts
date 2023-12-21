@@ -1,4 +1,5 @@
-import { Injectable, OnInit } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
+import { Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { cookie } from "@/app/core/utils";
 
@@ -8,7 +9,17 @@ import { cookie } from "@/app/core/utils";
 export class AuthService {
   private authToken = cookie.get("auth_token");
 
-  user: { id: number; email: string; name: string } | null = this.authToken
-    ? jwtDecode(this.authToken)
-    : null;
+  router = inject(Router);
+
+  user: IUser | null = this.authToken ? jwtDecode(this.authToken) : null;
+
+  setUser(user: IUser) {
+    this.user = user;
+  }
+
+  onLogout() {
+    this.user = null;
+    cookie.remove("auth_token");
+    this.router.navigateByUrl("/auth/sign-in");
+  }
 }

@@ -1,15 +1,21 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { ContactListComponent } from "../../components/contact-list/contact-list.component";
 import { ContactHeaderComponent } from "../../components/contact-header/contact-header.component";
 import { IContact } from "../../types/contact";
 import { ContactService } from "../../services/contact.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-contact-list-page",
   standalone: true,
-  imports: [CommonModule, ContactListComponent, ContactHeaderComponent],
+  imports: [
+    CommonModule,
+    ContactListComponent,
+    ContactHeaderComponent,
+    MatSnackBarModule,
+  ],
   templateUrl: "./all-contacts.component.html",
   styles: [],
 })
@@ -22,6 +28,14 @@ export class ContactListPageComponent implements OnInit {
 
   activatedRoute = inject(ActivatedRoute);
 
+  router = inject(Router);
+
+  snackBar = inject(MatSnackBar);
+
+  paramSubscribed = false;
+
+  querySubscribed = false;
+
   get starredContactList() {
     return this.allContacts.filter(({ isFavourite }) => isFavourite);
   }
@@ -30,10 +44,33 @@ export class ContactListPageComponent implements OnInit {
     return this.allContacts.filter(({ isFavourite }) => !isFavourite);
   }
 
+  get labelId(): string | null {
+    return this.activatedRoute.snapshot.params["labelId"] || null;
+  }
+
+  get search(): string | null {
+    return this.activatedRoute.snapshot.queryParams["q"] || null;
+  }
+
   ngOnInit(): void {
-    this.activatedRoute.queryParamMap.subscribe((params) => {
-      let q = params.get("q");
-      this.getAllContacts(q);
+    this.getAllContacts();
+
+    this.activatedRoute.params.subscribe(() => {
+      if (!this.paramSubscribed) {
+        this.paramSubscribed = true;
+        return;
+      }
+
+      this.getAllContacts();
+    });
+
+    this.activatedRoute.queryParams.subscribe(() => {
+      if (!this.querySubscribed) {
+        this.querySubscribed = true;
+        return;
+      }
+
+      this.getAllContacts();
     });
   }
 
@@ -46,9 +83,9 @@ export class ContactListPageComponent implements OnInit {
     });
   }
 
-  getAllContacts(search: string | null) {
+  getAllContacts() {
     this.contactService
-      .getAllContacts(search)
+      .getAllContacts(this.search, this.labelId)
       .subscribe(({ data: { contacts } }) => {
         this.allContacts = contacts;
       });
@@ -58,12 +95,17 @@ export class ContactListPageComponent implements OnInit {
     if (!window.confirm("Are you sure to delete this contact?")) return;
 
     this.contactService.removeContacts([contactId]).subscribe(({ message }) => {
-      console.log(message);
+      this.showSnackBar(message);
+      this.snackBar.open(message);
       let index = this.allContacts.findIndex(({ _id }) => _id === contactId);
       if (index === -1) return;
       this.allContacts.splice(index, 1);
       this.contactService.getContactCount();
     });
+  }
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, "", { duration: 3000 });
   }
 
   handleFavourite({
@@ -75,7 +117,7 @@ export class ContactListPageComponent implements OnInit {
   }) {
     if (isFavourite) {
       this.contactService.addToFavourite(contactId).subscribe(({ message }) => {
-        console.log(message);
+        this.showSnackBar(message);
         let contact = this.allContacts.find(({ _id }) => _id === contactId);
         if (!contact) return;
         contact.isFavourite = isFavourite;
@@ -85,7 +127,7 @@ export class ContactListPageComponent implements OnInit {
       this.contactService
         .removeFromFavourite(contactId)
         .subscribe(({ message }) => {
-          console.log(message);
+          this.showSnackBar(message);
           let contact = this.allContacts.find(({ _id }) => _id === contactId);
           if (!contact) return;
           contact.isFavourite = isFavourite;
@@ -113,7 +155,7 @@ export class ContactListPageComponent implements OnInit {
     let contactIds = [...this.selectedContactIds];
 
     this.contactService.removeContacts(contactIds).subscribe(({ message }) => {
-      console.log(message);
+      this.showSnackBar(message);
       this.allContacts = this.allContacts.filter(
         ({ _id }) => !this.selectedContactIds.has(_id)
       );

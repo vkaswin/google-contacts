@@ -13,7 +13,12 @@
         class="group-hover:hidden group-[&:is([aria-selected='true'])]:hidden flex items-center justify-center text-xl text-white font-medium w-full h-full rounded-full"
         [style]="{ backgroundColor: contact.colorCode }"
       >
-        <span>{{ contact.name.charAt(0) | uppercase }}</span>
+        <span>
+          {{ contact.firstName && contact.firstName.charAt(0).toUpperCase()
+          }}{{
+            contact.lastName && contact.lastName.charAt(0).toUpperCase()
+          }}</span
+        >
       </div>
       <div class="hidden group-hover:flex relative text-[#A3A3A3]">
         <i
@@ -29,7 +34,9 @@
         (onChange)="handleCheckBox($event, contact._id)"
       />
     </div>
-    <span class="first-letter:capitalize">{{ contact.name }}</span>
+    <span class="first-letter:capitalize"
+      >{{ contact.firstName }} {{ contact.lastName || "" }}</span
+    >
   </div>
   <div class="px-3 py-2">
     <span>{{ contact.email }}</span>

@@ -1,14 +1,15 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ContactFormComponent } from "../../components/contact-form/contact-form.component";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
+import { ContactFormComponent } from "../../components/contact-form/contact-form.component";
 import { ContactService } from "../../services/contact.service";
 import { IContactDetail } from "../../types/contact";
 
 @Component({
   selector: "app-edit-contact",
   standalone: true,
-  imports: [CommonModule, ContactFormComponent],
+  imports: [CommonModule, ContactFormComponent, MatSnackBarModule],
   templateUrl: "./edit-contact.component.html",
   styles: [],
 })
@@ -21,12 +22,22 @@ export class EditContactComponent implements OnInit {
 
   router = inject(Router);
 
+  snackBar = inject(MatSnackBar);
+
+  get labels() {
+    return this.contactService.labels;
+  }
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
       let contactId = params.get("contactId");
       if (!contactId) return;
       this.getContactDetail(contactId);
     });
+  }
+
+  showSnackBar(message: string) {
+    this.snackBar.open(message, "", { duration: 3000 });
   }
 
   getContactDetail(contactId: string) {
@@ -51,5 +62,20 @@ export class EditContactComponent implements OnInit {
 
   handleCloseForm() {
     this.router.navigateByUrl("/contact/list");
+  }
+
+  handleApplyLabel(labelIds: string[]) {
+    let contactId = this.activatedRoute.snapshot.params["contactId"];
+
+    if (!contactId) return;
+
+    this.contactService
+      .updateContactLabel(contactId, {
+        labels: [...labelIds],
+      })
+      .subscribe(({ message }) => {
+        this.showSnackBar(message);
+        this.getContactDetail(contactId);
+      });
   }
 }
