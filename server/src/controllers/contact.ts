@@ -103,7 +103,9 @@ const clearTrash = asyncHandler(async (req, res) => {
     ...(req.body && Array.isArray(req.body) && { _id: { $in: req.body } }),
   });
 
-  res.status(200).send({ message: "Contact has been deleted successfully" });
+  res
+    .status(200)
+    .send({ message: "Contact has been permanently deleted successfully" });
 });
 
 const recoverContact = asyncHandler(async (req, res) => {
@@ -150,7 +152,9 @@ const addFavourite = asyncHandler(async (req, res) => {
 
   await Contact.findByIdAndUpdate(contactId, { isFavourite: true });
 
-  res.status(200).send({ message: "Contact has been updated successfully" });
+  res
+    .status(200)
+    .send({ message: "Contact has been marked as favourite successfully" });
 });
 
 const removeFavourite = asyncHandler(async (req, res) => {
@@ -164,7 +168,9 @@ const removeFavourite = asyncHandler(async (req, res) => {
 
   await Contact.findByIdAndUpdate(contactId, { isFavourite: false });
 
-  res.status(200).send({ message: "Contact has been updated successfully" });
+  res
+    .status(200)
+    .send({ message: "Contact has been removed from favourite successfully" });
 });
 
 const getAllTrash = asyncHandler(async (req, res) => {
@@ -268,7 +274,7 @@ const exportContact = asyncHandler(async (req, res) => {
   );
   res.setHeader("Content-Disposition", "attachment; filename=sample-file.xlsx");
   res.setHeader("Content-Length", buffer.length);
-  res.end(buffer);
+  res.send(200).send(buffer);
 });
 
 const updateContactLabel = asyncHandler(async (req, res) => {

@@ -2,6 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { cookie } from "@/app/core/utils";
+import { IUser } from "../types/auth";
 
 @Injectable({
   providedIn: "root",
