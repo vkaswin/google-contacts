@@ -274,7 +274,7 @@ const exportContact = asyncHandler(async (req, res) => {
   );
   res.setHeader("Content-Disposition", "attachment; filename=sample-file.xlsx");
   res.setHeader("Content-Length", buffer.length);
-  res.send(200).send(buffer);
+  res.end(buffer);
 });
 
 const updateContactLabel = asyncHandler(async (req, res) => {

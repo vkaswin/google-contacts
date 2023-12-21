@@ -8,10 +8,13 @@
         ></i>
       </div>
       <div
-        class="relative flex justify-center items-center w-32 h-32 bg-[#c2e7ff] rounded-full"
-        [style]="{ backgroundColor: contactDetail.colorCode }"
+        class="relative flex justify-center items-center w-32 h-32 rounded-full"
+        [style]="{
+          backgroundColor: contactDetail.colorCode
+        }"
       >
-        <span class="text-4xl text-white"
+        <img *ngIf="isAddPage" src="assets/images/profile.png" />
+        <span *ngIf="!isAddPage" class="text-4xl text-white"
           >{{
             contactDetail.firstName &&
               contactDetail.firstName.charAt(0).toUpperCase()
@@ -21,7 +24,7 @@
           }}
         </span>
       </div>
-      <div class="flex gap-3 flex-col self-center">
+      <div *ngIf="!isAddPage" class="flex gap-3 flex-col self-center">
         <div class="flex gap-3 flex-nowrap">
           <button
             *ngFor="let label of contactDetail.labels"

@@ -147,6 +147,10 @@ export class ContactFormComponent implements OnChanges {
     return this.form.controls["country"];
   }
 
+  get isAddPage() {
+    return isEmpty(this.contactDetail);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["contactDetail"]) {
       this.contactDetail = changes["contactDetail"]
