@@ -1,1 +1,88 @@
-<p>sign-up works!</p>
+<div class="container">
+  <div>
+    <div class="logo">
+      <span>Create your Account</span>
+    </div>
+    <div class="form">
+      <div class="wrap_field">
+        <app-input
+          label="First Name"
+          name="firstName"
+          [control]="firstName"
+          [hasError]="isSubmitted && firstName.errors !== null"
+          [errorMessage]="{
+            required: 'Please enter first name',
+            minlength: 'First name should contain atleast 3 characters',
+            pattern: 'First name should contain alphapets only'
+          }"
+        />
+        <app-input
+          label="Last Name"
+          name="lastName"
+          [control]="lastName"
+          [hasError]="isSubmitted && lastName.errors !== null"
+          [errorMessage]="{
+            minlength: 'First name should contain atleast 3 characters',
+            pattern: 'Last name should contain alphapets only'
+          }"
+        />
+      </div>
+      <app-input
+        label="Email"
+        name="email"
+        [control]="email"
+        [hasError]="isSubmitted && email.errors !== null"
+        [errorMessage]="{
+          required: 'Please enter email',
+          email: 'Invalid email'
+        }"
+      />
+      <div class="password_field">
+        <div class="wrap_field">
+          <app-input
+            [type]="showPassword ? 'text' : 'password'"
+            label="Password"
+            name="jobTitle"
+            [control]="password"
+            [hasError]="isSubmitted && password.errors !== null"
+            [errorMessage]="{
+              required: 'Please enter password',
+              pattern: 'Invalid password'
+            }"
+          />
+          <app-input
+            [type]="showPassword ? 'text' : 'password'"
+            label="Confirm Password"
+            name="confirmPassword"
+            [control]="confirmPassword"
+            [hasError]="isSubmitted && confirmPassword.errors !== null"
+            [errorMessage]="{
+              required: 'Please enter confirm password',
+              passwordMismatch: 'Confirm password is not match with password'
+            }"
+          />
+        </div>
+        <span class="password_note">
+          Use 8 or more characters with a mix of letters, numbers, uppercase &
+          symbols
+        </span>
+        <div class="show_field">
+          <input
+            id="show-password"
+            type="checkbox"
+            [checked]="showPassword"
+            (input)="handleCheckBox($event)"
+          />
+          <label for="show-password">Show password</label>
+        </div>
+      </div>
+      <div class="cta">
+        <a [routerLink]="'/auth/sign-in'">Sign in instead</a>
+        <button (click)="handleSubmit()">Create Account</button>
+      </div>
+    </div>
+  </div>
+  <div class="poster">
+    <img src="assets/images/account.svg" alt="" />
+  </div>
+</div>

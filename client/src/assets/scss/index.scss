@@ -46,28 +46,3 @@ $google-contacts-theme: mat.define-light-theme(
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: "Poppins", "Helvetica Neue", sans-serif;
-}
-
-::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: white;
-}
-::-webkit-scrollbar-thumb {
-  background: lightgray;
-  border-radius: 10px;
-}
-
-.snackbar-warning {
-  --mdc-snackbar-container-color: #e74c3c;
-  --mat-mdc-snack-bar-button-color: white;
-}

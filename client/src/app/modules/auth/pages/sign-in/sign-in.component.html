@@ -1,1 +1,34 @@
-<p>sign-in works!</p>
+<div class="container">
+  <div>
+    <div class="logo">
+      <span>Sign In</span>
+      <span>to continue</span>
+    </div>
+    <div class="form">
+      <app-input
+        label="Email"
+        name="email"
+        [control]="email"
+        [hasError]="isSubmitted && email.errors !== null"
+        [errorMessage]="{
+          required: 'Please enter email',
+          email: 'Invalid email'
+        }"
+      />
+      <app-input
+        label="Password"
+        name="password"
+        type="password"
+        [control]="password"
+        [hasError]="isSubmitted && password.errors !== null"
+        [errorMessage]="{
+          required: 'Please enter password'
+        }"
+      />
+      <div class="cta">
+        <a [routerLink]="'/auth/sign-up'">Create Account</a>
+        <button (click)="handleSubmit()">Sign in</button>
+      </div>
+    </div>
+  </div>
+</div>

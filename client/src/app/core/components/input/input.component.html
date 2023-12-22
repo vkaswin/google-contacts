@@ -1,4 +1,4 @@
-<div class="group relative" *ngIf="!readOnly">
+<div class="group relative w-full" *ngIf="!readOnly">
   <label
     [htmlFor]="name"
     class="absolute left-4 top-1/2 -translate-y-1/2 px-1 text-gray group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:bg-white group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:top-0 group-[&:has(input:focus,input:not(:placeholder-shown))]:text-blue group-[&:has(input[aria-invalid='true'])]:text-red-600 group-[&:has(input:focus,input:not(:placeholder-shown),input[aria-invalid='true'])]:text-sm transition-all duration-200 cursor-text"
@@ -7,9 +7,9 @@
   </label>
   <div class="flex flex-col gap-1">
     <input
-      type="text"
+      [type]="type"
       placeholder="placeholder"
-      class="border border-gray-500 rounded-[4px] h-[40px] px-4 outline-none [&:not(:placeholder-shown)]:border-2 [&:not(:placeholder-shown)]:border-[#1a73e8] focus:border-[#1a73e8] focus:border-2 [&:not([aria-invalid='false'])]:border-[#d50000] aria-[invalid=true]:border-2 placeholder:text-transparent"
+      class="w-full border border-gray-500 rounded-[4px] h-[40px] px-4 outline-none [&:not(:placeholder-shown)]:border-2 [&:not(:placeholder-shown)]:border-[#1a73e8] focus:border-[#1a73e8] focus:border-2 [&:not([aria-invalid='false'])]:border-[#d50000] aria-[invalid=true]:border-2 placeholder:text-transparent"
       [id]="name"
       autocomplete="off"
       [attr.aria-invalid]="hasError"
