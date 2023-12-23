@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit, inject } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { HeaderComponent } from "../components/header/header.component";
@@ -30,6 +30,8 @@ export class LayoutComponent implements OnInit {
   dialog = inject(MatDialog);
 
   snackBar = inject(MatSnackBar);
+
+  router = inject(Router);
 
   get isExpanded() {
     return this.contactService.isExpanded;
@@ -62,6 +64,7 @@ export class LayoutComponent implements OnInit {
     this.contactService.removeLabelById(labelId).subscribe(({ message }) => {
       this.showSnackBar(message);
       this.contactService.onDeleteLabel.emit(labelId);
+      this.router.navigateByUrl("/contact/list");
     });
   }
 
