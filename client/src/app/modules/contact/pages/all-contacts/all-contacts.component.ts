@@ -17,7 +17,6 @@ import { ActivatedRoute, Router } from "@angular/router";
     MatSnackBarModule,
   ],
   templateUrl: "./all-contacts.component.html",
-  styles: [],
 })
 export class ContactListPageComponent implements OnInit {
   allContacts: IContact[] = [];
@@ -55,6 +54,11 @@ export class ContactListPageComponent implements OnInit {
   ngOnInit(): void {
     this.getAllContacts();
 
+    this.contactService.onBulkUpload.subscribe(() => {
+      console.log("bulk upload");
+      this.getAllContacts();
+    });
+
     this.activatedRoute.params.subscribe(() => {
       if (!this.paramSubscribed) {
         this.paramSubscribed = true;
@@ -71,15 +75,6 @@ export class ContactListPageComponent implements OnInit {
       }
 
       this.getAllContacts();
-    });
-  }
-
-  downloadSampleExcelSheet() {
-    this.contactService.downloadSampleFile().subscribe((blob) => {
-      let a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "sample-file";
-      a.click();
     });
   }
 
@@ -105,7 +100,7 @@ export class ContactListPageComponent implements OnInit {
   }
 
   showSnackBar(message: string) {
-    this.snackBar.open(message, "", { duration: 3000 });
+    this.snackBar.open(message, "", { duration: 300000 });
   }
 
   handleFavourite({

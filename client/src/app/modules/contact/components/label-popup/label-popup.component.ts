@@ -12,7 +12,6 @@ import { ILabel } from "../../types/contact";
   standalone: true,
   imports: [CommonModule, InputComponent, MatSnackBarModule],
   templateUrl: "./label-popup.component.html",
-  styles: [],
 })
 export class LabelPopupComponent implements OnInit {
   dialogRef = inject(MatDialogRef<LabelPopupComponent>);

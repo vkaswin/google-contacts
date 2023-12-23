@@ -7,7 +7,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
   standalone: true,
   imports: [CommonModule, MatTooltipModule],
   templateUrl: "./contact-header.component.html",
-  styles: [],
 })
 export class ContactHeaderComponent {
   @Input() isTrash = false;

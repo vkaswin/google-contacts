@@ -6,7 +6,6 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [CommonModule],
   templateUrl: "./check-box.component.html",
-  styles: [],
 })
 export class CheckBoxComponent {
   @Input() checked = false;

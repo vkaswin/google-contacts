@@ -1,6 +1,11 @@
-<ng-container
-  *ngIf="starredContactList.length !== 0 || contactList.length !== 0"
+<div
+  *ngIf="allContacts.length === 0"
+  class="flex justify-center text-xl p-5 mt-8"
 >
+  <span>No Contacts Found</span>
+</div>
+
+<ng-container *ngIf="allContacts.length !== 0">
   <app-contact-header
     [isTrash]="false"
     [selectedContacts]="selectedContactIds.size"

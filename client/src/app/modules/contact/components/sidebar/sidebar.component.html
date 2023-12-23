@@ -31,7 +31,7 @@
   </button>
   <button
     class="flex items-center justify-between text-dark-gray font-medium py-2 px-5 rounded-r-full hover:bg-light-silver transition-colors duration-200"
-    [routerLink]="'upload'"
+    (click)="showBulkUploadPopup()"
   >
     <div class="flex items-center gap-4">
       <i class="icon-download-outline text-2xl"></i>

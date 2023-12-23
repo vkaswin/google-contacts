@@ -17,7 +17,6 @@ dayjs.extend(relativeTime);
   standalone: true,
   imports: [CommonModule, RouterLink, CheckBoxComponent],
   templateUrl: "./contact-list.component.html",
-  styles: [],
 })
 export class ContactListComponent {
   @Input() contacts: IContact[] = [];

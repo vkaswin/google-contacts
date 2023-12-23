@@ -30,13 +30,6 @@ export const ContactRoutes: Routes = [
         },
       },
       {
-        path: "upload",
-        loadComponent: async () => {
-          let c = await import("./pages/bulk-upload/bulk-upload.component");
-          return c.BulkUploadComponent;
-        },
-      },
-      {
         path: ":contactId/edit",
         loadComponent: async () => {
           let c = await import("./pages/edit-contact/edit-contact.component");

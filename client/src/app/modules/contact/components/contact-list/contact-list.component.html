@@ -6,7 +6,7 @@
 >
   <div class="relative flex items-center gap-5 px-3 h-full">
     <div
-      class="group relative w-[40px] h-[40px] hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
+      class="group relative w-11 h-11 hover:bg-light-gray group-[&:is([aria-selected='true'])]:hover:bg-sky-blue rounded-full"
       (click)="$event.stopPropagation()"
     >
       <div
@@ -22,10 +22,10 @@
       </div>
       <div class="hidden group-hover:flex relative text-[#A3A3A3]">
         <i
-          class="icon-dots-vertical cursor-pointer absolute -left-[14px] top-[5px] text-xl"
+          class="icon-dots-vertical cursor-pointer absolute -left-[14px] top-2 text-xl"
         ></i>
         <i
-          class="icon-dots-vertical cursor-pointer absolute -left-[6px] top-[5px] text-xl"
+          class="icon-dots-vertical cursor-pointer absolute -left-[6px] top-2 text-xl"
         ></i>
       </div>
       <app-check-box

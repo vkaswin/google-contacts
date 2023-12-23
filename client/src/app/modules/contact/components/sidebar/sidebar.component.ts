@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, inject, Output } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive, Router } from "@angular/router";
-
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { BulkUploadPopupComponent } from "../bulk-upload-popup/bulk-upload-popup.component";
 import { ILabel } from "../../types/contact";
 
 @Component({
@@ -9,7 +10,6 @@ import { ILabel } from "../../types/contact";
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: "./sidebar.component.html",
-  styles: [],
 })
 export class SidebarComponent {
   @Input() labels: ILabel[] = [];
@@ -20,6 +20,8 @@ export class SidebarComponent {
   @Output() onAddLabel = new EventEmitter();
 
   router = inject(Router);
+
+  dialog = inject(MatDialog);
 
   handleTrackLabel(index: number, label: ILabel) {
     return label._id;
@@ -38,5 +40,11 @@ export class SidebarComponent {
   handleEditLabel(event: MouseEvent, label: ILabel) {
     event.stopPropagation();
     this.onEditLabel.emit(label);
+  }
+
+  showBulkUploadPopup() {
+    this.dialog.open(BulkUploadPopupComponent, {
+      width: "420px",
+    });
   }
 }

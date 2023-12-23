@@ -11,7 +11,6 @@ import { IContactDetail } from "../../types/contact";
   standalone: true,
   imports: [CommonModule, ContactFormComponent, MatSnackBarModule],
   templateUrl: "./edit-contact.component.html",
-  styles: [],
 })
 export class EditContactComponent implements OnInit {
   contactDetail = {} as IContactDetail;

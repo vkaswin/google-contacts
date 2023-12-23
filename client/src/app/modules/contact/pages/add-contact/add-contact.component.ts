@@ -10,7 +10,6 @@ import { Router } from "@angular/router";
   standalone: true,
   imports: [CommonModule, ContactFormComponent],
   templateUrl: "./add-contact.component.html",
-  styles: [],
 })
 export class AddContactComponent {
   contactService = inject(ContactService);

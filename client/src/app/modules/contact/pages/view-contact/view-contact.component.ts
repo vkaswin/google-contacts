@@ -10,7 +10,6 @@ import { IContactDetail } from "../../types/contact";
   standalone: true,
   imports: [CommonModule, ContactFormComponent],
   templateUrl: "./view-contact.component.html",
-  styles: [],
 })
 export class ViewContactComponent implements OnInit {
   contactDetail = {} as IContactDetail;

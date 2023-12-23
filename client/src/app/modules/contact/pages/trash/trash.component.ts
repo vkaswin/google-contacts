@@ -16,7 +16,6 @@ import { ContactService } from "../../services/contact.service";
     MatSnackBarModule,
   ],
   templateUrl: "./trash.component.html",
-  styles: [],
 })
 export class TrashComponent implements OnInit {
   contactsList: IContact[] = [];

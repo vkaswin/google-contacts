@@ -10,7 +10,6 @@ import { AuthService } from "@/app/modules/auth/services/auth.service";
   standalone: true,
   imports: [CommonModule, RouterLink, MatMenuModule],
   templateUrl: "./header.component.html",
-  styles: [],
 })
 export class HeaderComponent {
   @Output() onToggleMenu = new EventEmitter();

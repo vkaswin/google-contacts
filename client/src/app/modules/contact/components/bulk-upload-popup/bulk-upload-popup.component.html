@@ -1,0 +1,40 @@
+<div class="flex flex-col gap-4 p-6">
+  <b class="text-xl">Import Contacts</b>
+  <span>To import contacts, select a xlsx file</span>
+  <span
+    >Download sample xlsx file
+    <span class="text-blue cursor-pointer" (click)="downloadSampleExcelSheet()"
+      >here</span
+    ></span
+  >
+  <div class="flex flex-col gap-3">
+    <label
+      for="file-upload"
+      class="flex justify-center items-center w-28 h-8 bg-blue rounded text-white cursor-pointer"
+      >Select File</label
+    >
+    <span *ngIf="file" class="text-sm">{{ file.name }}</span>
+  </div>
+  <input
+    id="file-upload"
+    type="file"
+    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    hidden
+    (input)="handleFileChange($event)"
+  />
+  <div class="flex justify-end gap-3">
+    <button
+      class="text-blue text-sm font-medium bg-transparent h-8 px-3 hover:bg-[#DBE7F8] rounded transition-colors"
+      (click)="dialogRef.close()"
+    >
+      Cancel
+    </button>
+    <button
+      class="text-blue text-sm font-medium bg-transparent h-8 px-3 hover:bg-[#DBE7F8] rounded transition-colors disabled:bg-transparent disabled:hover:bg-transparent disabled:text-gray disabled:opacity-50"
+      [disabled]="!file"
+      (click)="handleFileUpload()"
+    >
+      Import
+    </button>
+  </div>
+</div>

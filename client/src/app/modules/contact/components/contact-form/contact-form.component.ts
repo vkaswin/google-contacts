@@ -20,7 +20,6 @@ import { isEmpty } from "@/app/core/utils";
   standalone: true,
   imports: [CommonModule, InputComponent, RouterModule, MatMenuModule],
   templateUrl: "./contact-form.component.html",
-  styles: [],
 })
 export class ContactFormComponent implements OnChanges {
   @Input() isReadOnly = false;

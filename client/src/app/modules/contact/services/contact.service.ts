@@ -22,6 +22,8 @@ export class ContactService {
 
   onDeleteLabel = new EventEmitter<string>();
 
+  onBulkUpload = new EventEmitter();
+
   constructor() {
     this.onCreateLabel.subscribe((data) => {
       this.labels.push(data);
