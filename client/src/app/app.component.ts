@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { Router, RouterOutlet } from "@angular/router";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { AuthService } from "./modules/auth/services/auth.service";
@@ -17,6 +17,8 @@ export class AppComponent implements OnInit {
 
   snackBar = inject(MatSnackBar);
 
+  router = inject(Router);
+
   ngOnInit(): void {
     document.addEventListener("httperror", this.handleHttpError.bind(this));
   }
@@ -30,6 +32,8 @@ export class AppComponent implements OnInit {
 
   handleHttpError({ detail: { status, message } }: any) {
     this.showSnackBar(message);
-    if (status === 401) this.authService.onLogout();
+    if (status === 400 && message === "User not exist")
+      this.router.navigateByUrl("/auth/sign-up");
+    else if (status === 401) this.authService.onLogout();
   }
 }

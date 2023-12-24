@@ -5,8 +5,6 @@ import fileHandler from "../middlewares/fileHandler";
 
 const router = Router();
 
-router.get("/cron", ContactController.cronTask);
-
 router.use(verifyToken);
 
 router.get("/all", ContactController.getContacts);

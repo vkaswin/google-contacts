@@ -30,7 +30,6 @@ export class ContactFormComponent implements OnChanges {
   @Output() onClose = new EventEmitter();
   @Output() onApplyLabel = new EventEmitter();
 
-  isExpanded = false;
   isSubmitted = false;
   labelIds = new Set<string>();
 
@@ -181,10 +180,6 @@ export class ContactFormComponent implements OnChanges {
         );
       }
     }
-  }
-
-  handleExpand() {
-    this.isExpanded = !this.isExpanded;
   }
 
   handleSubmit() {

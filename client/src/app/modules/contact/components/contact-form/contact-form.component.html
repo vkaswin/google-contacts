@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<form class="mt-6 pl-6 w-[50%]">
+<form class="my-6 pl-6 w-[50%]">
   <div class="flex items-start gap-5">
     <i class="icon-account-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-7 w-full">
@@ -112,7 +112,6 @@
         }"
       />
       <app-input
-        *ngIf="isExpanded"
         label="Nick Name"
         name="nickName"
         [control]="nickName"
@@ -142,7 +141,6 @@
         [readOnly]="isReadOnly"
       />
       <app-input
-        *ngIf="isExpanded"
         label="Department"
         name="department"
         [control]="department"
@@ -184,7 +182,7 @@
     </div>
   </div>
 
-  <div *ngIf="isExpanded" class="flex items-start gap-5 mt-5">
+  <div class="flex items-start gap-5 mt-5">
     <i class="icon-map-marker-outline text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
       <app-input
@@ -235,7 +233,7 @@
     </div>
   </div>
 
-  <div *ngIf="isExpanded" class="flex items-center gap-5 mt-5">
+  <div class="flex items-center gap-5 mt-5">
     <i class="icon-link text-gray text-2xl"></i>
     <div class="flex flex-col gap-4 w-full">
       <app-input
@@ -262,10 +260,4 @@
       />
     </div>
   </div>
-  <button
-    class="my-5 hover:bg-sky-blue text-light-blue font-medium rounded-full px-3 py-2 text-sm transition-colors duration-200"
-    (click)="handleExpand()"
-  >
-    Show {{ isExpanded ? "less" : "more" }}
-  </button>
 </form>

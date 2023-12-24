@@ -9,7 +9,6 @@ import {
 } from "@angular/common/http";
 import { AuthInterceptor } from "./app/core/interceptor/auth.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MatTooltip } from "@angular/material/tooltip";
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -17,8 +16,7 @@ bootstrapApplication(AppComponent, {
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-      BrowserAnimationsModule,
-      MatTooltip
+      BrowserAnimationsModule
     ),
     provideHttpClient(withInterceptors([AuthInterceptor])),
   ],
