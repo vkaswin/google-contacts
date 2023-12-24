@@ -6,6 +6,18 @@
             "use": "@vercel/node"
         }
     ],
+    "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/api"
+        }
+    ],
+    "crons": [
+        {
+            "path": "/api/contact/cron",
+            "schedule": "*/5 * * * *"
+        }
+    ],
     "routes": [
         {
             "src": "/(.*)",

@@ -295,6 +295,12 @@ const updateContactLabel = asyncHandler(async (req, res) => {
     .send({ message: "Contact label has been updated successfully" });
 });
 
+const cronTask = asyncHandler(async (req, res) => {
+  res
+    .status(200)
+    .send({ message: "Success", data: "Cron running successfully" });
+});
+
 const ContactController = {
   getContacts,
   createContact,
@@ -311,6 +317,7 @@ const ContactController = {
   exportContact,
   getContactCount,
   updateContactLabel,
+  cronTask,
 };
 
 export default ContactController;
