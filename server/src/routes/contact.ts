@@ -5,6 +5,8 @@ import fileHandler from "../middlewares/fileHandler";
 
 const router = Router();
 
+router.get("/cron", ContactController.cronTask);
+
 router.use(verifyToken);
 
 router.get("/all", ContactController.getContacts);
@@ -29,7 +31,5 @@ router.put("/:contactId/label", ContactController.updateContactLabel);
 router.delete("/remove", ContactController.removeContact);
 router.delete("/:contactId/favourite", ContactController.removeFavourite);
 router.delete("/trash", ContactController.clearTrash);
-
-router.get("/cron", ContactController.cronTask);
 
 export default router;
