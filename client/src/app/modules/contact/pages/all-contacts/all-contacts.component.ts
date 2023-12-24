@@ -100,7 +100,7 @@ export class ContactListPageComponent implements OnInit {
   }
 
   showSnackBar(message: string) {
-    this.snackBar.open(message, "", { duration: 300000 });
+    this.snackBar.open(message, "", { duration: 3000 });
   }
 
   handleFavourite({
