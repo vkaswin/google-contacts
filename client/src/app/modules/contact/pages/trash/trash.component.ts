@@ -75,6 +75,13 @@ export class TrashComponent implements OnInit {
   }
 
   handleDeleteAllSelectedContacts() {
+    if (
+      !window.confirm(
+        "Are you sure to delete all the selected contacts from the trash?"
+      )
+    )
+      return;
+
     let contactIds = [...this.selectedContactIds];
     this.contactService.clearTrash(contactIds).subscribe(({ message }) => {
       this.showSnackBar(message);

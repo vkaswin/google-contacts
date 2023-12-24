@@ -47,8 +47,11 @@
   <div class="px-3 py-2">
     <span *ngIf="!isTrash"
       >{{ contact.company }}
+      <ng-container *ngIf="contact.company && contact.jobTitle">
+        ,
+      </ng-container>
       <ng-container *ngIf="contact.jobTitle">
-        , {{ contact.jobTitle }}
+        {{ contact.jobTitle }}
       </ng-container>
     </span>
     <span *ngIf="isTrash">

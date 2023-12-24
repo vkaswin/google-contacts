@@ -55,7 +55,6 @@ export class ContactListPageComponent implements OnInit {
     this.getAllContacts();
 
     this.contactService.onBulkUpload.subscribe(() => {
-      console.log("bulk upload");
       this.getAllContacts();
     });
 
@@ -91,7 +90,6 @@ export class ContactListPageComponent implements OnInit {
 
     this.contactService.removeContacts([contactId]).subscribe(({ message }) => {
       this.showSnackBar(message);
-      this.snackBar.open(message);
       let index = this.allContacts.findIndex(({ _id }) => _id === contactId);
       if (index === -1) return;
       this.allContacts.splice(index, 1);
@@ -147,6 +145,9 @@ export class ContactListPageComponent implements OnInit {
   }
 
   handleDeleteAllSelectedContacts() {
+    if (!window.confirm("Are you sure to delete all the selected contacts?"))
+      return;
+
     let contactIds = [...this.selectedContactIds];
 
     this.contactService.removeContacts(contactIds).subscribe(({ message }) => {
